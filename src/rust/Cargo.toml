@@ -9,6 +9,7 @@ crate-type = ["staticlib"]
 
 [dependencies]
 extendr-api = "0.1.11"
+tokenizers = {git = "https://github.com/huggingface/tokenizers"}
 
 # Once extendr 0.1.11 is on crates.io the entire remaining part
 # of this file can be deleted.
@@ -17,3 +18,4 @@ extendr-api = { git = "https://github.com/extendr/extendr" }
 extendr-engine = { git = "https://github.com/extendr/extendr" }
 extendr-macros = { git = "https://github.com/extendr/extendr" }
 libR-sys = { git = "https://github.com/extendr/libR-sys" }
+
