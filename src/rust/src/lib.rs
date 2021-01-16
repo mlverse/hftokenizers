@@ -35,31 +35,126 @@ fn token() -> &'static str {
     "yeah done!"
 }
 
+// Trainers -------------------
+
+pub struct RTrainer {
+    pub trainer: tokenizers::models::TrainerWrapper
+}
+
+impl tokenizers::Trainer for RTrainer {
+    type Model = RModel;
+
+    fn should_show_progress(&self) -> bool {
+        self.trainer.should_show_progress()
+    }
+
+    fn train(&self, model: &mut RModel) -> tokenizers::Result<Vec<tokenizers::AddedToken>> {
+        self.trainer
+            .train(&mut model.model)
+    }
+
+    fn feed<I, S, F>(&mut self, iterator: I, process: F) -> tokenizers::Result<()>
+    where
+        I: Iterator<Item = S> + Send,
+        S: AsRef<str> + Send,
+        F: Fn(&str) -> tokenizers::Result<Vec<String>> + Sync,
+    {
+        self.trainer.feed(iterator, process)
+    }
+}
+
+impl<I> From<I> for RTrainer
+where
+    I: Into<tokenizers::models::TrainerWrapper>,
+{
+    fn from(trainer: I) -> Self {
+        RTrainer {
+            trainer: trainer.into()
+        }
+    }
+}
+
 // Models ---------------------
 
-pub struct RModelWrapper {
+#[extendr]
+pub struct RModel {
     pub model: ModelWrapper
 }
 
-#[extendr]
-impl RModelWrapper {
-    fn new () -> Self {
-        Self {model: ModelWrapper::BPE(BPE::default())}
+impl tokenizers::Model for RModel {
+
+    type Trainer = RTrainer;
+
+    fn tokenize(&self, tokens: &str) -> tokenizers::Result<Vec<tokenizers::Token>> {
+        self.model.tokenize(tokens)
     }
-    fn set_bpe (&mut self, object: &RBPE) {
-        self.model = ModelWrapper::BPE(object.bpe.clone());
+
+    fn token_to_id(&self, token: &str) -> Option<u32> {
+        self.model.token_to_id(token)
+    }
+
+    fn id_to_token(&self, id: u32) -> Option<String> {
+        self.model.id_to_token(id)
+    }
+
+    fn get_vocab(&self) -> HashMap<String, u32> {
+        self.model.get_vocab()
+    }
+
+    fn get_vocab_size(&self) -> usize {
+        self.model.get_vocab_size()
+    }
+
+    fn save(&self, folder: &std::path::Path, name: Option<&str>) -> tokenizers::Result<Vec<std::path::PathBuf>> {
+        self.model.save(folder, name)
+    }
+
+    fn get_trainer(&self) -> Self::Trainer {
+        self.model.get_trainer().into()
     }
 }
 
-pub struct RBPE {
-    pub bpe: tokenizers::models::bpe::BPE
+impl<I> From<I> for RModel
+where
+    I: Into<tokenizers::ModelWrapper>,
+{
+    fn from(model: I) -> Self {
+        Self {
+            model: model.into(),
+        }
+    }
 }
 
 #[extendr]
-impl RBPE {
-    fn new () -> Self {
-        Self {bpe: tokenizers::models::bpe::BPE::default()}
+impl RModel {
+
+}
+
+#[extendr]
+pub struct RModelsBpe {}
+
+#[extendr]
+impl RModelsBpe {
+    fn new () -> RModel {
+        let builder = tokenizers::models::bpe::BPE::builder();
+        builder.build().unwrap().into()
     }
+}
+
+// Tokenizers ----------------
+
+struct RTokenizerImpl {
+    pub tokenizer: tokenizers::TokenizerImpl<
+    tokenizers::ModelWrapper,
+    NormalizerWrapper,
+    PreTokenizerWrapper,
+    PostProcessorWrapper,
+    DecoderWrapper
+>
+}
+
+#[extendr]
+impl RTokenizerImpl {
 }
 
 struct RTokenizerBuilder {
@@ -72,8 +167,6 @@ struct RTokenizerBuilder {
 >
 }
 
-// Tokenizers ----------------
-
 #[extendr]
 impl RTokenizerBuilder {
     fn new () -> Self {
@@ -85,6 +178,9 @@ impl RTokenizerBuilder {
             DecoderWrapper,
         >::default()}
     }
+    //fn build (& self) {
+    //    RTokenizerImpl{tokenizer: self.tokenizer.build().unwrap()};
+    //}
 }
 
 
@@ -95,8 +191,9 @@ extendr_module! {
     // Tokenizers
     impl RTokenizerBuilder;
     // Models ------
-    impl RModelWrapper;
-    impl RBPE;
+    impl RModel;
+    impl RModelsBpe;
+    //impl RModelsBpeBuilder;
 }
 
 
