@@ -130,13 +130,70 @@ impl RModel {
 
 }
 
+// Parameters ----
+
+enum RVocab {
+    Vocab(tokenizers::models::bpe::Vocab),
+    None
+}
+
+impl<'a> FromRobj<'a> for RVocab {
+    fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
+        if let Some(iter) = robj.as_named_list_iter() {
+            let hash_map = iter
+                .map(|(k, v)| (k.to_string(), v.as_integer().unwrap() as u32))
+                .collect::<HashMap<String, u32>>();
+            std::result::Result::Ok(RVocab::Vocab(hash_map))
+        } else if robj.is_null() {
+            std::result::Result::Ok(RVocab::None)
+        } else {
+            Err("expected a list")
+        }
+    }
+}
+
+impl<'a> FromRobj<'a> for RMerges {
+    fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
+        if let Some(iter) = robj.as_list_iter() {
+            let vector = iter
+                .map(|k| {
+                    let v = k.as_str_iter().unwrap().collect::<Vec<_>>();
+                    (String::from(v[0]), String::from(v[1]))
+                })
+                .collect::<Vec<(String, String)>>();
+            std::result::Result::Ok(RMerges::Merges(vector))
+        } else if robj.is_null() {
+            std::result::Result::Ok(RMerges::None)
+        } else {
+            Err("expected a list")
+        }
+    }
+}
+
+enum RMerges {
+    Merges(tokenizers::models::bpe::Merges),
+    None
+}
+
+// Models --------
+
 #[extendr]
 pub struct RModelsBpe {}
 
 #[extendr]
 impl RModelsBpe {
-    fn new () -> RModel {
-        let builder = tokenizers::models::bpe::BPE::builder();
+    fn new (vocab: RVocab, merges: RMerges, dropout: f32) -> RModel {
+        let mut builder = tokenizers::models::bpe::BPE::builder();
+
+        match (vocab, merges) {
+            (RVocab::Vocab(vocab), RMerges::Merges(merges)) => {
+                builder = builder.vocab_and_merges(vocab, merges);
+            }
+            _ => {}
+        }
+
+        builder = builder
+            .dropout(dropout);
         builder.build().unwrap().into()
     }
 }
