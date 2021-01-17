@@ -74,6 +74,11 @@ where
     }
 }
 
+#[extendr]
+impl RTrainer {
+
+}
+
 // Models ---------------------
 
 #[extendr]
@@ -127,7 +132,9 @@ where
 
 #[extendr]
 impl RModel {
-
+    fn get_trainer (&self) -> RTrainer {
+        RTrainer {trainer: self.model.get_trainer()}
+    }
 }
 
 // Parameters ----
@@ -206,59 +213,65 @@ impl RModelsBpe {
     }
 }
 
+// Normalizers ---------------
+
+struct RNormalizer {
+    normalizer: tokenizers::NormalizerWrapper
+}
+
+#[extendr]
+impl RNormalizer {}
+
+// Pre-tokenizers ---------------
+
+struct RPreTokenizer {
+    pre_tokenizer: tokenizers::PreTokenizerWrapper
+}
+
+#[extendr]
+impl RPreTokenizer {}
+
+// Post processor wrapper --------
+
+struct RPostProcessor {
+    post_processor: tokenizers::PostProcessorWrapper
+}
+
+#[extendr]
+impl RPostProcessor {}
+
+// Decoders ----------------------
+
+struct RDecoder {
+    decoder: tokenizers::DecoderWrapper
+}
+
+#[extendr]
+impl RDecoder {}
+
 // Tokenizers ----------------
 
-struct RTokenizerImpl {
-    pub tokenizer: tokenizers::TokenizerImpl<
-    tokenizers::ModelWrapper,
-    NormalizerWrapper,
-    PreTokenizerWrapper,
-    PostProcessorWrapper,
-    DecoderWrapper
->
+struct RTokenizer {
+    pub tokenizer: TokenizerBuilder::<RModel, RNormalizer,RPreTokenizer,RPostProcessor,RDecoder>
 }
 
 #[extendr]
-impl RTokenizerImpl {
-}
-
-struct RTokenizerBuilder {
-    pub tokenizer: TokenizerBuilder::<
-    tokenizers::ModelWrapper,
-    NormalizerWrapper,
-    PreTokenizerWrapper,
-    PostProcessorWrapper,
-    DecoderWrapper
->
-}
-
-#[extendr]
-impl RTokenizerBuilder {
-    fn new () -> Self {
-        Self {tokenizer: TokenizerBuilder::<
-            tokenizers::ModelWrapper,
-            NormalizerWrapper,
-            PreTokenizerWrapper,
-            PostProcessorWrapper,
-            DecoderWrapper,
-        >::default()}
-    }
-    //fn build (& self) {
-    //    RTokenizerImpl{tokenizer: self.tokenizer.build().unwrap()};
-    //}
-}
-
+impl RTokenizer {}
 
 extendr_module! {
     mod helloextendr;
     fn hello;
     fn token;
     // Tokenizers
-    impl RTokenizerBuilder;
+    impl RTokenizer;
     // Models ------
     impl RModel;
     impl RModelsBpe;
-    //impl RModelsBpeBuilder;
+    // Other stuff -----
+    impl RNormalizer;
+    impl RPreTokenizer;
+    impl RPostProcessor;
+    impl RDecoder;
 }
 
 
