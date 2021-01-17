@@ -182,7 +182,7 @@ pub struct RModelsBpe {}
 
 #[extendr]
 impl RModelsBpe {
-    fn new (vocab: RVocab, merges: RMerges, dropout: f32) -> RModel {
+    fn new (vocab: RVocab, merges: RMerges, dropout: Option<f64>, unk_token: Option<String>) -> RModel {
         let mut builder = tokenizers::models::bpe::BPE::builder();
 
         match (vocab, merges) {
@@ -192,8 +192,16 @@ impl RModelsBpe {
             _ => {}
         }
 
-        builder = builder
-            .dropout(dropout);
+        match unk_token {
+            Some(v) => builder = builder.unk_token(v),
+            None => {}
+        }
+
+        match dropout {
+            Some(v) => builder = builder.dropout(v as f32),
+            None => {}
+        }
+
         builder.build().unwrap().into()
     }
 }
