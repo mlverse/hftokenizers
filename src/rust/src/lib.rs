@@ -82,6 +82,7 @@ impl RTrainer {
 // Models ---------------------
 
 #[extendr]
+#[derive(Clone)]
 pub struct RModel {
     pub model: ModelWrapper
 }
@@ -125,7 +126,7 @@ where
 {
     fn from(model: I) -> Self {
         Self {
-            model: model.into(),
+            model: model.into()
         }
     }
 }
@@ -222,6 +223,12 @@ struct RNormalizer {
 #[extendr]
 impl RNormalizer {}
 
+impl tokenizers::Normalizer for RNormalizer {
+    fn normalize(&self, normalized: &mut tokenizers::NormalizedString) -> tokenizers::Result<()> {
+        self.normalizer.normalize(normalized)
+    }
+}
+
 // Pre-tokenizers ---------------
 
 struct RPreTokenizer {
@@ -231,6 +238,12 @@ struct RPreTokenizer {
 #[extendr]
 impl RPreTokenizer {}
 
+impl tokenizers::PreTokenizer for RPreTokenizer {
+    fn pre_tokenize(&self, normalized: &mut tokenizers::PreTokenizedString) -> tokenizers::Result<()> {
+        self.pre_tokenizer.pre_tokenize(normalized)
+    }
+}
+
 // Post processor wrapper --------
 
 struct RPostProcessor {
@@ -239,6 +252,22 @@ struct RPostProcessor {
 
 #[extendr]
 impl RPostProcessor {}
+
+impl tokenizers::PostProcessor for RPostProcessor {
+    fn added_tokens(&self, is_pair: bool) -> usize {
+        self.post_processor.added_tokens(is_pair)
+    }
+
+    fn process(
+        &self,
+        encoding: tokenizers::Encoding,
+        pair_encoding: Option<tokenizers::Encoding>,
+        add_special_tokens: bool,
+    ) -> tokenizers::Result<tokenizers::Encoding> {
+        self.post_processor
+            .process(encoding, pair_encoding, add_special_tokens)
+    }
+}
 
 // Decoders ----------------------
 
@@ -251,12 +280,24 @@ impl RDecoder {}
 
 // Tokenizers ----------------
 
+type Tokenizer = tokenizers::TokenizerImpl::<RModel, RNormalizer,RPreTokenizer,RPostProcessor,RDecoder>;
+
 struct RTokenizer {
-    pub tokenizer: TokenizerBuilder::<RModel, RNormalizer,RPreTokenizer,RPostProcessor,RDecoder>
+    pub tokenizer: Tokenizer
+}
+
+impl tokenizers::Decoder for RDecoder {
+    fn decode(&self, tokens: Vec<String>) -> tokenizers::Result<String> {
+        self.decoder.decode(tokens)
+    }
 }
 
 #[extendr]
-impl RTokenizer {}
+impl RTokenizer {
+    fn from_model (model: &RModel) -> Self {
+        RTokenizer {tokenizer: tokenizers::TokenizerImpl::new(model.clone())}
+    }
+}
 
 extendr_module! {
     mod helloextendr;
