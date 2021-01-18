@@ -14,8 +14,8 @@ tokenizers = {git = "https://github.com/huggingface/tokenizers"}
 # Once extendr 0.1.11 is on crates.io the entire remaining part
 # of this file can be deleted.
 [patch.crates-io]
-extendr-api = { git = "https://github.com/dfalbel/extendr" , branch = "lifetime"}
-extendr-engine = { git = "https://github.com/dfalbel/extendr" , branch = "lifetime"}
-extendr-macros = { git = "https://github.com/dfalbel/extendr" , branch = "lifetime"}
+extendr-api = { git = "https://github.com/dfalbel/extendr" , branch = "from_vec_string"}
+extendr-engine = { git = "https://github.com/dfalbel/extendr" , branch = "from_vec_string"}
+extendr-macros = { git = "https://github.com/dfalbel/extendr" , branch = "from_vec_string"}
 libR-sys = { git = "https://github.com/extendr/libR-sys" }
 

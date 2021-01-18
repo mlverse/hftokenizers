@@ -297,6 +297,25 @@ impl RTokenizer {
     fn from_model (model: &RModel) -> Self {
         RTokenizer {tokenizer: tokenizers::TokenizerImpl::new(model.clone())}
     }
+
+    fn train(&mut self, files: Vec<String>) {
+        let mut trainer = self.tokenizer.get_model().get_trainer();
+        match self.tokenizer.train_from_files(&mut trainer, files) {
+            Err(e) => panic!("Error: {}", e),
+            _ => {}
+        }        
+    }
+
+    fn encode (&self, sequence : Vec<String>, add_special_tokens: bool) -> Vec<u32> {
+        
+        let input_sequence = tokenizers::InputSequence::from(sequence);
+        let input = tokenizers::EncodeInput::Single(input_sequence);
+        
+        match self.tokenizer.encode_char_offsets(input, add_special_tokens) {
+            Err(e) => panic!("Error while encoding: {}", e),
+            Ok(v) => v.get_ids().to_vec()
+        }
+    }
 }
 
 extendr_module! {
