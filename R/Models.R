@@ -1,9 +1,12 @@
-RModelWrapper <- R6::R6Class(
-  "RModelWrapper",
+models_bpe <- R6::R6Class(
+  "model_bpe",
   public = list(
-    p = NULL,
-    initialize = function() {
-      self$p <- .Call(wrap__RModelWrapper__new)
+    ptr = NULL,
+    initialize = function(vocab = NULL, merges = NULL, dropout = NA, 
+                          unk_token = NA) {
+      self$ptr <- .Call(wrap__RModelsBpe__new, vocab, merges, dropout, unk_token, PACKAGE = "helloextendr")
     }  
   )
 )
+
+
