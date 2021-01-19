@@ -1,3 +1,4 @@
+#' @export
 models_bpe <- R6::R6Class(
   "model_bpe",
   public = list(

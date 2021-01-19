@@ -1,39 +1,4 @@
 use extendr_api::*;
-use tokenizers::models::bpe::BPE;
-use tokenizers::{DecoderWrapper, NormalizerWrapper, PostProcessorWrapper, PreTokenizerWrapper};
-use tokenizers::{Model, TokenizerBuilder, ModelWrapper};
-
-#[extendr]
-fn hello() -> &'static str {
-    return "hello";
-}
-
-#[extendr]
-fn token() -> &'static str {
-    
-    let mut tokenizer = TokenizerBuilder::<
-        BPE,
-        NormalizerWrapper,
-        PreTokenizerWrapper,
-        PostProcessorWrapper,
-        DecoderWrapper,
-    >::default()
-    .with_model(
-        BPE::builder()
-            .unk_token("[UNK]".to_string())
-            .dropout(0.1)
-            .build()
-            .unwrap(),
-    )
-    .build()
-    .unwrap();
-    let mut trainer = tokenizer.get_model().get_trainer();
-    tokenizer
-        .train_from_files(&mut trainer, vec!["./small.txt".to_string()])
-        .unwrap();
-
-    "yeah done!"
-}
 
 // Trainers -------------------
 
@@ -318,10 +283,9 @@ impl RTokenizer {
     }
 }
 
+
 extendr_module! {
     mod helloextendr;
-    fn hello;
-    fn token;
     // Tokenizers
     impl RTokenizer;
     // Models ------

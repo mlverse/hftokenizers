@@ -1,3 +1,4 @@
+#' @export
 tokenizer <- R6::R6Class(
   "tokenizer",
   public = list(
