@@ -35,7 +35,7 @@ models_bpe <- R6::R6Class(
 )
 
 models_bpe$read_file <- function(vocab, merges) {
-  .Call(wrap__RModelsBpe_read_file, vocab, merge)
+  .Call(wrap__RModelsBpe__read_file, vocab, merges)
 }
 
 models_bpe$from_file <- function(vocab, merges, cache_capacity=NA, 
