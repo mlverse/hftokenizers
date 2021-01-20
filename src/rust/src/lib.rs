@@ -1,4 +1,5 @@
 use extendr_api::*;
+use tokenizers::Model;
 
 // Trainers -------------------
 
@@ -49,7 +50,7 @@ impl RTrainer {
 #[extendr]
 #[derive(Clone)]
 pub struct RModel {
-    pub model: ModelWrapper
+    pub model: tokenizers::ModelWrapper
 }
 
 impl tokenizers::Model for RModel {
@@ -155,7 +156,7 @@ pub struct RModelsBpe {}
 
 #[extendr]
 impl RModelsBpe {
-    fn new (vocab: RVocab, merges: RMerges, dropout: Option<f64>, unk_token: Option<String>) -> RModel {
+    fn new (vocab: RVocab, merges: RMerges, cache_capacity: Option<i32>, dropout: Option<f64>, unk_token: Option<String>, continuing_subword_prefix: Option<String>, end_of_word_suffix: Option<String>, fuse_unk: Option<bool>) -> RModel {
         let mut builder = tokenizers::models::bpe::BPE::builder();
 
         match (vocab, merges) {
@@ -165,13 +166,33 @@ impl RModelsBpe {
             _ => {}
         }
 
-        match unk_token {
-            Some(v) => builder = builder.unk_token(v),
+        match cache_capacity {
+            Some(v) => builder = builder.cache_capacity(v as usize),
             None => {}
         }
 
         match dropout {
             Some(v) => builder = builder.dropout(v as f32),
+            None => {}
+        }
+
+        match unk_token {
+            Some(v) => builder = builder.unk_token(v),
+            None => {}
+        }
+
+        match continuing_subword_prefix {
+            Some(v) => builder = builder.continuing_subword_prefix(v),
+            None => {}
+        }
+
+        match end_of_word_suffix {
+            Some(v) => builder = builder.end_of_word_suffix(v),
+            None => {}
+        }
+
+        match fuse_unk {
+            Some(v) => builder = builder.fuse_unk(v),
             None => {}
         }
 
@@ -282,7 +303,6 @@ impl RTokenizer {
         }
     }
 }
-
 
 extendr_module! {
     mod helloextendr;

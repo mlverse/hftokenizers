@@ -4,14 +4,14 @@ tokenizer <- R6::R6Class(
   public = list(
     ptr = NULL,
     initialize = function(model) {
-      self$ptr <- .Call(wrap__RTokenizer__from_model, model$ptr, PACKAGE = "helloextendr")
+      self$ptr <- .Call(wrap__RTokenizer__from_model, model$ptr, PACKAGE = "hftokenizers")
     },
     train = function(files) {
-      .Call(wrap__RTokenizer__train, self$ptr, files, PACKAGE = "helloextendr")
+      .Call(wrap__RTokenizer__train, self$ptr, files, PACKAGE = "hftokenizers")
       invisible(self)
     },
     encode = function(sequence, add_special_tokens = FALSE) {
-      .Call(wrap__RTokenizer__encode, self$ptr, sequence, add_special_tokens, PACKAGE = "helloextendr")
+      .Call(wrap__RTokenizer__encode, self$ptr, sequence, add_special_tokens, PACKAGE = "hftokenizers")
     }
   )
 )
