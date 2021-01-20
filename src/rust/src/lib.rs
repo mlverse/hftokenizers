@@ -331,7 +331,7 @@ impl RTokenizer {
 }
 
 extendr_module! {
-    mod helloextendr;
+    mod hftokenizers;
     // Tokenizers
     impl RTokenizer;
     // Models ------

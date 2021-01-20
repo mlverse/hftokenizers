@@ -1,7 +1,7 @@
 #LIBDIR = ./rust/target/release  # debug compiles faster
 LIBDIR = ./rust/target/debug
-STATLIB = $(LIBDIR)/libhelloextendr.a
-PKG_LIBS = -L$(LIBDIR) -lhelloextendr
+STATLIB = $(LIBDIR)/libhftokenizers.a
+PKG_LIBS = -L$(LIBDIR) -lhftokenizers
 
 all: C_clean
 

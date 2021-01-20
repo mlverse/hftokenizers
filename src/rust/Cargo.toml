@@ -1,7 +1,7 @@
 [package]
-name = "helloextendr"
-version = "0.1.0"
-authors = ["andy-thomason <andy@andythomason.com>"]
+name = "hftokenizers"
+version = "0.0.1"
+authors = ["daniel-falbel <daniel@rstudio.com>"]
 edition = "2018"
 
 [lib]

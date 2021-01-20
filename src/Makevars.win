@@ -1,7 +1,7 @@
 TARGET = $(subst 64,x86_64,$(subst 32,i686,$(WIN)))-pc-windows-gnu
 LIBDIR = ./rust/target/$(TARGET)/release
-STATLIB = $(LIBDIR)/libhelloextendr.a
-PKG_LIBS = -L$(LIBDIR) -lhelloextendr -lws2_32 -ladvapi32 -luserenv
+STATLIB = $(LIBDIR)/libhftokenizers.a
+PKG_LIBS = -L$(LIBDIR) -lhftokenizers -lws2_32 -ladvapi32 -luserenv
 
 all: C_clean
 

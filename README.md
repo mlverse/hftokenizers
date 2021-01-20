@@ -1,6 +1,6 @@
 # Minimal Example of Calling Rust from R
 
-[![R build status](https://github.com/extendr/helloextendr/workflows/R-CMD-check/badge.svg)](https://github.com/extendr/helloextendr/actions)
+[![R build status](https://github.com/extendr/hftokenizers/workflows/R-CMD-check/badge.svg)](https://github.com/extendr/hftokenizers/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This is a template package to demonstrate how to call Rust from R using the [extendr-api](https://crates.io/crates/extendr-api) crate.
@@ -18,12 +18,12 @@ rustup target add i686-pc-windows-gnu
 
 Once Rust is working, you can install this package via:
 ```r
-remotes::install_github("extendr/helloextendr")
+remotes::install_github("extendr/hftokenizers")
 ```
 
 After installation, the following should work:
 ```r
-library(helloextendr)
+library(hftokenizers)
 
 hello()
 #> [1] "hello"
