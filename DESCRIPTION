@@ -2,9 +2,8 @@ Package: hftokenizers
 Title: Minimal Example of Calling Rust from R
 Version: 0.1.0
 Authors@R: c(
-    person("Andy", "Thomason", , "andy@andythomason.com", c("aut")),
-    person("Claus O.", "Wilke", , "wilke@austin.utexas.edu", c("aut", "cre"),
-      comment = c(ORCID = "0000-0002-7470-9261"))
+    person("Daniel", "Falbel", , "daniel@rstudio.com", c("aut", "cre")),
+    person(family = "RStudio", role = c("cph"))
   )
 Description:
   This is a template package to demonstrate how to call
