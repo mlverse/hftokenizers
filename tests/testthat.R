@@ -1,4 +1,4 @@
 library(testthat)
-library(helloextendr)
+library(hftokenizers)
 
-test_check("helloextendr")
+test_check("hftokenizers")
