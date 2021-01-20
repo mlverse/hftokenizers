@@ -102,6 +102,14 @@ impl RModel {
     fn get_trainer (&self) -> RTrainer {
         RTrainer {trainer: self.model.get_trainer()}
     }
+    fn save (&self, folder: &str, prefix: &str) -> Vec<String> {
+        let saved = self.model.save(std::path::Path::new(folder), Some(prefix));
+        saved
+            .unwrap()
+            .into_iter()
+            .map(|path| path.to_string_lossy().into_owned())
+            .collect()
+    }
 }
 
 // Parameters ----
