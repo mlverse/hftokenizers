@@ -144,6 +144,14 @@ impl<'a> FromRobj<'a> for RMerges {
     }
 }
 
+struct RVocabAndMerges {
+    pub vocab: RVocab,
+    pub merges: RMerges
+}
+
+#[extendr]
+impl RVocabAndMerges {}
+
 enum RMerges {
     Merges(tokenizers::models::bpe::Merges),
     None
@@ -197,6 +205,16 @@ impl RModelsBpe {
         }
 
         builder.build().unwrap().into()
+    }
+
+    fn read_file (vocab: &str, merges: &str) -> RVocabAndMerges {
+        let out = tokenizers::models::bpe::BPE::read_file(vocab, merges).unwrap();
+        RVocabAndMerges{vocab: RVocab::Vocab(out.0), merges: RMerges::Merges(out.1)}
+    }
+
+    fn from_file (vocab: &str, merges: &str, cache_capacity: Option<i32>, dropout: Option<f64>, unk_token: Option<String>, continuing_subword_prefix: Option<String>, end_of_word_suffix: Option<String>, fuse_unk: Option<bool>) -> RModel {
+        let vm = RModelsBpe::read_file(vocab, merges);
+        RModelsBpe::new(vm.vocab, vm.merges, cache_capacity, dropout, unk_token, continuing_subword_prefix, end_of_word_suffix, fuse_unk)
     }
 }
 
