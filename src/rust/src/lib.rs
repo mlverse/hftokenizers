@@ -328,6 +328,25 @@ impl RTokenizer {
             Ok(v) => v.get_ids().to_vec()
         }
     }
+
+    fn get_vocab(&self, with_added_tokens: bool) -> Robj {
+        
+        // TODO change when we support auto convertion from HashMap<String, Robj>
+        let res : Robj= self.tokenizer
+            .get_vocab(with_added_tokens)
+            .iter()
+            .map(|(_, v)| v)
+            .collect_robj();
+        
+        let names = self.tokenizer
+            .get_vocab(with_added_tokens)
+            .iter()
+            .map(|(k, _)| k)
+            .collect_robj();
+        
+        res.set_attrib(names_symbol(), names);
+        res
+    }
 }
 
 extendr_module! {

@@ -5,4 +5,8 @@ test_that("Can create a tokenizer and train", {
   expect_error(o <- tok$encode("hello world"), regex = NA)
   expect_equal(class(o), "integer")
   
+  tokens <- tok$get_vocab()
+  expect_named(tokens)
+  expect_equal(class(tokens), "integer")
+
 })
