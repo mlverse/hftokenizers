@@ -41,6 +41,19 @@ impl RTokenizer {
         }
     }
 
+    fn decode(&self, ids: Vec<i32>, skip_special_tokens: bool) -> String {
+
+        let input_ids : Vec<u32> = ids
+            .iter()
+            .map(|v| *v as u32)
+            .collect();
+
+        match self.tokenizer.decode(input_ids, skip_special_tokens) {
+            Err(e) => panic!("Error while decoding: {}", e),
+            Ok(v) => v.as_str().to_owned()
+        }
+    }
+
     fn get_vocab(&self, with_added_tokens: bool) -> Robj {
         
         // TODO change when we support auto convertion from HashMap<String, Robj>
