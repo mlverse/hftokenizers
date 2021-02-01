@@ -10,8 +10,8 @@ tokenizer <- R6::R6Class(
       .Call(wrap__RTokenizer__train, self$ptr, files, PACKAGE = "hftokenizers")
       invisible(self)
     },
-    encode = function(sequence, add_special_tokens = FALSE) {
-      .Call(wrap__RTokenizer__encode, self$ptr, sequence, add_special_tokens, PACKAGE = "hftokenizers")
+    encode = function(sequence, is_pre_tokenized = FALSE, add_special_tokens = FALSE) {
+      .Call(wrap__RTokenizer__encode, self$ptr, sequence, is_pre_tokenized, add_special_tokens, PACKAGE = "hftokenizers")
     },
     # TODO is this the correct default?
     get_vocab = function(with_added_tokens = FALSE) {

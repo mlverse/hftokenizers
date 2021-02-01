@@ -32,9 +32,13 @@ impl RTokenizer {
         }        
     }
 
-    fn encode (&self, sequence : Vec<String>, add_special_tokens: bool) -> Vec<u32> {
+    fn encode (&self, sequence : Robj, is_pre_tokenized: bool, add_special_tokens: bool) -> Vec<u32> {
         
-        let input_sequence = tokenizers::InputSequence::from(sequence);
+        let input_sequence: tokenizers::InputSequence = if is_pre_tokenized {
+            pre_tokenized_input_sequence(sequence).unwrap()
+        } else {
+            text_input_sequence(sequence).unwrap()
+        };
         let input = tokenizers::EncodeInput::Single(input_sequence);
         
         match self.tokenizer.encode_char_offsets(input, add_special_tokens) {
@@ -63,7 +67,23 @@ impl RTokenizer {
     }
 }
 
+fn pre_tokenized_input_sequence<'s> (obj: Robj) -> std::result::Result<tokenizers::InputSequence<'s>, &'static str> {
+    if let Some(v) = obj.as_string_vector() {
+        Ok(tokenizers::InputSequence::from(v.to_vec()))
+    } else {
+        Err("Expected a chracter vectors.")
+    }
+}
+fn text_input_sequence<'s> (obj: Robj) -> std::result::Result<tokenizers::InputSequence<'s>, &'static str> {
+    if let Some(v) = obj.as_str() {
+        Ok(tokenizers::InputSequence::from(v))
+    } else {
+        Err("Expected a length 1 character vector.")
+    }
+}
+
 extendr_module! {
     mod tokenizer;
     impl RTokenizer;
 }
+
