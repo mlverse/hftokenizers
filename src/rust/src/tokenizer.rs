@@ -12,12 +12,6 @@ struct RTokenizer {
     pub tokenizer: Tokenizer
 }
 
-impl tokenizers::Decoder for RDecoder {
-    fn decode(&self, tokens: Vec<String>) -> tokenizers::Result<String> {
-        self.decoder.decode(tokens)
-    }
-}
-
 #[extendr]
 impl RTokenizer {
     fn from_model (model: &RModel) -> Self {
