@@ -4,5 +4,4 @@
 void R_init_hftokenizers_extendr(void *dll);
 void R_init_hftokenizers(void *dll) {
   R_init_hftokenizers_extendr(dll);
-
 }
