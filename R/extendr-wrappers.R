@@ -72,7 +72,17 @@ REncoding$get_sequence_ids <- function() .Call(wrap__REncoding__get_sequence_ids
 
 REncoding$get_type_ids <- function() .Call(wrap__REncoding__get_type_ids, self)
 
-REncoding$get_attention_mask <- function() invisible(.Call(wrap__REncoding__get_attention_mask, self))
+REncoding$get_special_tokens_mask <- function() .Call(wrap__REncoding__get_special_tokens_mask, self)
+
+REncoding$get_attention_mask <- function() .Call(wrap__REncoding__get_attention_mask, self)
+
+REncoding$token_to_word <- function(token_index) .Call(wrap__REncoding__token_to_word, self, token_index)
+
+REncoding$char_to_token <- function(char_pos, sequence_index) .Call(wrap__REncoding__char_to_token, self, char_pos, sequence_index)
+
+REncoding$char_to_word <- function(char_pos, sequence_index) .Call(wrap__REncoding__char_to_word, self, char_pos, sequence_index)
+
+REncoding$truncate <- function(max_length, stride) .Call(wrap__REncoding__truncate, self, max_length, stride)
 
 `$.REncoding` <- function (self, name) { func <- REncoding[[name]]; environment(func) <- environment(); func }
 
