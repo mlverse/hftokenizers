@@ -44,6 +44,14 @@ impl REncoding {
     self.encoding.get_type_ids().to_vec()
   }
 
+  fn get_offsets(&self) -> Robj {
+    let v = self.encoding.get_offsets().to_vec();
+    let v_iter = v
+      .iter()
+      .map(|v| <Robj>::from([v.0 as i32, v.1 as i32]));
+    List(v_iter).into()
+  }
+
   fn get_special_tokens_mask(&self) -> Vec<u32> {
     self.encoding.get_special_tokens_mask().to_vec()
   }

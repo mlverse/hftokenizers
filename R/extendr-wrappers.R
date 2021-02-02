@@ -72,6 +72,8 @@ REncoding$get_sequence_ids <- function() .Call(wrap__REncoding__get_sequence_ids
 
 REncoding$get_type_ids <- function() .Call(wrap__REncoding__get_type_ids, self)
 
+REncoding$get_offsets <- function() .Call(wrap__REncoding__get_offsets, self)
+
 REncoding$get_special_tokens_mask <- function() .Call(wrap__REncoding__get_special_tokens_mask, self)
 
 REncoding$get_attention_mask <- function() .Call(wrap__REncoding__get_attention_mask, self)
