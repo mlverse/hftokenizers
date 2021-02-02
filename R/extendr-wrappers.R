@@ -56,6 +56,7 @@ RDecoder <- new.env(parent = emptyenv())
 
 `$.RDecoder` <- function (self, name) { func <- RDecoder[[name]]; environment(func) <- environment(); func }
 
+#' @export
 REncoding <- new.env(parent = emptyenv())
 
 REncoding$get_n_sequences <- function() .Call(wrap__REncoding__get_n_sequences, self)
@@ -86,5 +87,8 @@ REncoding$char_to_word <- function(char_pos, sequence_index) .Call(wrap__REncodi
 
 REncoding$truncate <- function(max_length, stride) .Call(wrap__REncoding__truncate, self, max_length, stride)
 
+#' @rdname REncoding
+#' @usage NULL
+#' @export
 `$.REncoding` <- function (self, name) { func <- REncoding[[name]]; environment(func) <- environment(); func }
 

@@ -1,31 +1,41 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # HuggingFace tokenizers from R
 
-[![R build status](https://github.com/mlverse/hftokenizers/workflows/R-CMD-check/badge.svg)](https://github.com/mlverse/hftokenizers/actions) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![R build
+status](https://github.com/mlverse/hftokenizers/workflows/R-CMD-check/badge.svg)](https://github.com/mlverse/hftokenizers/actions)
 
-> This is an experimental project binding HuggingFace [tokenizers](https://github.com/huggingface/tokenizers) Rust library to R using the [extendr](https://github.com/extendr/extendr) project. Do **not** use for anything meaninful yet.
+> This is an experimental project binding HuggingFace
+> [tokenizers](https://github.com/huggingface/tokenizers) Rust library
+> to R using the [extendr](https://github.com/extendr/extendr) project.
+> Do **not** use for anything meaninful yet.
 
 ## Installation
 
-This repository uses the [helloextendr template](https://github.com/extendr/helloextendr).
+This repository uses the [helloextendr
+template](https://github.com/extendr/helloextendr).
 
-Before you can install this package, you need to install a working Rust toolchain. We recommend using [rustup.](https://rustup.rs/)
+Before you can install this package, you need to install a working Rust
+toolchain. We recommend using [rustup.](https://rustup.rs/)
 
-On Windows, you'll also have to add the `i686-pc-windows-gnu` and `x86_64-pc-windows-gnu` targets:
+On Windows, you’ll also have to add the `i686-pc-windows-gnu` and
+`x86_64-pc-windows-gnu` targets:
 
     rustup target add x86_64-pc-windows-gnu
     rustup target add i686-pc-windows-gnu
 
 Once Rust is working, you can install this package via:
 
-``` {.r}
+``` r
 remotes::install_github("mlverse/hftokenizers")
 ```
 
 ## Small example
 
-Here's a quick demo of what you can do with `hftokenizers`:
+Here’s a quick demo of what you can do with `hftokenizers`:
 
-``` {.r}
+``` r
 library(hftokenizers)
 
 download.file(
@@ -36,7 +46,7 @@ download.file(
 tokenizer$
   new(models_bpe$new())$
   train(normalizePath("small.txt"))$
-  encode(c("hello world"))
+  encode(c("hello world"))$
+  get_ids()
 #> [1]  57 427  93 275  61  53
 ```
-

@@ -5,6 +5,7 @@ pub struct REncoding {
     pub encoding: tokenizers::Encoding
 }
 
+/// @export
 #[extendr]
 impl REncoding {
 
