@@ -4,6 +4,7 @@ use crate::pre_tokenizers::*;
 use crate::normalizers::*;
 use crate::decoders::*;
 use crate::processors::*;
+use crate::encoding::*;
 use tokenizers::Model;
 
 type Tokenizer = tokenizers::TokenizerImpl::<RModel, RNormalizer,RPreTokenizer,RPostProcessor,RDecoder>;
@@ -26,18 +27,29 @@ impl RTokenizer {
         }        
     }
 
-    fn encode (&self, sequence : Robj, is_pre_tokenized: bool, add_special_tokens: bool) -> Vec<u32> {
+    fn encode (&self, sequence : Robj, pair: Nullable<Robj>, is_pretokenized: bool, add_special_tokens: bool) -> REncoding {
         
-        let input_sequence: tokenizers::InputSequence = if is_pre_tokenized {
+        let sequence: tokenizers::InputSequence = if is_pretokenized {
             pre_tokenized_input_sequence(sequence).unwrap()
         } else {
             text_input_sequence(sequence).unwrap()
         };
-        let input = tokenizers::EncodeInput::Single(input_sequence);
+
+        let input = match pair {
+            extendr_api::wrapper::Nullable::NotNull(pair) => {
+                let pair: tokenizers::InputSequence = if is_pretokenized {
+                    pre_tokenized_input_sequence(pair).unwrap()
+                } else {
+                    text_input_sequence(pair).unwrap()
+                };
+                tokenizers::EncodeInput::Dual(sequence, pair)
+            }
+            extendr_api::wrapper::Nullable::Null => tokenizers::EncodeInput::Single(sequence),
+        };
         
         match self.tokenizer.encode_char_offsets(input, add_special_tokens) {
             Err(e) => panic!("Error while encoding: {}", e),
-            Ok(v) => v.get_ids().to_vec()
+            Ok(v) => REncoding{encoding: v}
         }
     }
 
