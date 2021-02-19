@@ -1,5 +1,5 @@
 #' The tokenizer class
-#' 
+#' @export
 tokenizer <- R6::R6Class(
   "tokenizer",
   public = list(
@@ -31,7 +31,7 @@ tokenizer <- R6::R6Class(
     #'  it in the tokenizer.
     #'
     pre_tokenizer = function(pre_tokenizer) {
-      if (missing(x)) {
+      if (missing(pre_tokenizer)) {
         self$obj$get_pre_tokenizer()
       } else {
         self$obj$set_pre_tokenizer(pre_tokenizer)
