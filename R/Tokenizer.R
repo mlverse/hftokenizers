@@ -1,3 +1,10 @@
+null_or_obj <- function(x) {
+  if (is.null(x))
+    x
+  else
+    x$obj
+}
+
 #' The tokenizer class
 #' @export
 tokenizer <- R6::R6Class(
@@ -7,8 +14,8 @@ tokenizer <- R6::R6Class(
     initialize = function(model) {
       self$obj <- RTokenizer$from_model(model$ptr)
     },
-    train = function(files) {
-      self$obj$train(files)
+    train = function(files, trainer = NULL) {
+      self$obj$train(files, null_or_obj(trainer))
       invisible(self)
     },
     encode = function(sequence, pair = NULL, is_pretokenized = FALSE, add_special_tokens = FALSE) {

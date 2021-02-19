@@ -12,7 +12,7 @@ RTokenizer <- new.env(parent = emptyenv())
 
 RTokenizer$from_model <- function(model) .Call(wrap__RTokenizer__from_model, model)
 
-RTokenizer$train <- function(files) invisible(.Call(wrap__RTokenizer__train, self, files))
+RTokenizer$train <- function(files, trainer) invisible(.Call(wrap__RTokenizer__train, self, files, trainer))
 
 RTokenizer$encode <- function(sequence, pair, is_pretokenized, add_special_tokens) .Call(wrap__RTokenizer__encode, self, sequence, pair, is_pretokenized, add_special_tokens)
 
@@ -24,6 +24,7 @@ RTokenizer$get_pre_tokenizer <- function() .Call(wrap__RTokenizer__get_pre_token
 
 RTokenizer$set_pre_tokenizer <- function(pre_tokenizer) invisible(.Call(wrap__RTokenizer__set_pre_tokenizer, self, pre_tokenizer))
 
+#' @export
 `$.RTokenizer` <- function (self, name) { func <- RTokenizer[[name]]; environment(func) <- environment(); func }
 
 RModel <- new.env(parent = emptyenv())
@@ -32,6 +33,7 @@ RModel$get_trainer <- function() .Call(wrap__RModel__get_trainer, self)
 
 RModel$save <- function(folder, prefix) .Call(wrap__RModel__save, self, folder, prefix)
 
+#' @export
 `$.RModel` <- function (self, name) { func <- RModel[[name]]; environment(func) <- environment(); func }
 
 RModelsBpe <- new.env(parent = emptyenv())
@@ -42,28 +44,34 @@ RModelsBpe$read_file <- function(vocab, merges) .Call(wrap__RModelsBpe__read_fil
 
 RModelsBpe$from_file <- function(vocab, merges, cache_capacity, dropout, unk_token, continuing_subword_prefix, end_of_word_suffix, fuse_unk) .Call(wrap__RModelsBpe__from_file, vocab, merges, cache_capacity, dropout, unk_token, continuing_subword_prefix, end_of_word_suffix, fuse_unk)
 
+#' @export
 `$.RModelsBpe` <- function (self, name) { func <- RModelsBpe[[name]]; environment(func) <- environment(); func }
 
 RNormalizer <- new.env(parent = emptyenv())
 
+#' @export
 `$.RNormalizer` <- function (self, name) { func <- RNormalizer[[name]]; environment(func) <- environment(); func }
 
 RPreTokenizer <- new.env(parent = emptyenv())
 
+#' @export
 `$.RPreTokenizer` <- function (self, name) { func <- RPreTokenizer[[name]]; environment(func) <- environment(); func }
 
 RWhitespace <- new.env(parent = emptyenv())
 
 RWhitespace$new <- function() .Call(wrap__RWhitespace__new)
 
+#' @export
 `$.RWhitespace` <- function (self, name) { func <- RWhitespace[[name]]; environment(func) <- environment(); func }
 
 RPostProcessor <- new.env(parent = emptyenv())
 
+#' @export
 `$.RPostProcessor` <- function (self, name) { func <- RPostProcessor[[name]]; environment(func) <- environment(); func }
 
 RDecoder <- new.env(parent = emptyenv())
 
+#' @export
 `$.RDecoder` <- function (self, name) { func <- RDecoder[[name]]; environment(func) <- environment(); func }
 
 #' @export
@@ -106,5 +114,6 @@ RBpeTrainer <- new.env(parent = emptyenv())
 
 RBpeTrainer$new <- function(vocab_size, min_frequency, show_progress, special_tokens, limit_alphabet, initial_alphabet, continuing_subword_prefix, end_of_word_suffix) .Call(wrap__RBpeTrainer__new, vocab_size, min_frequency, show_progress, special_tokens, limit_alphabet, initial_alphabet, continuing_subword_prefix, end_of_word_suffix)
 
+#' @export
 `$.RBpeTrainer` <- function (self, name) { func <- RBpeTrainer[[name]]; environment(func) <- environment(); func }
 

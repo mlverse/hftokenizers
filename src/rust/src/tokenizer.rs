@@ -5,6 +5,7 @@ use crate::normalizers::*;
 use crate::decoders::*;
 use crate::processors::*;
 use crate::encoding::*;
+use crate::trainers;
 use tokenizers::Model;
 
 type Tokenizer = tokenizers::TokenizerImpl::<RModel, RNormalizer,RPreTokenizer,RPostProcessor,RDecoder>;
@@ -19,12 +20,22 @@ impl RTokenizer {
         RTokenizer {tokenizer: tokenizers::TokenizerImpl::new(model.clone())}
     }
 
-    fn train(&mut self, files: Vec<String>) {
-        let mut trainer = self.tokenizer.get_model().get_trainer();
-        match self.tokenizer.train_from_files(&mut trainer, files) {
-            Err(e) => panic!("Error: {}", e),
-            _ => {}
-        }        
+    fn train(&mut self, files: Vec<String>, trainer : Nullable<&mut trainers::RTrainer>) {
+        match trainer {
+            Nullable::NotNull(v) => {
+                match self.tokenizer.train_from_files(v, files) {
+                    Err(e) => panic!("Error: {}", e),
+                    _ => {}
+                };
+            },
+            Nullable::Null => {
+                let mut trainer = self.tokenizer.get_model().get_trainer();
+                match self.tokenizer.train_from_files(&mut trainer, files) {
+                    Err(e) => panic!("Error: {}", e),
+                    _ => {}
+                };
+            }
+        };       
     }
 
     fn encode (&self, sequence : Robj, pair: Nullable<Robj>, is_pretokenized: bool, add_special_tokens: bool) -> REncoding {
@@ -93,7 +104,7 @@ impl RTokenizer {
         self.tokenizer.with_pre_tokenizer(pre_tokenizer.clone());
     }
 
-    
+
 }
 
 fn pre_tokenized_input_sequence<'s> (obj: Robj) -> std::result::Result<tokenizers::InputSequence<'s>, &'static str> {

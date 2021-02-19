@@ -33,7 +33,7 @@ The tokenizer class
 \if{latex}{\out{\hypertarget{method-train}{}}}
 \subsection{Method \code{train()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{tokenizer$train(files)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{tokenizer$train(files, trainer = NULL)}\if{html}{\out{</div>}}
 }
 
 }

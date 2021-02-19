@@ -31,7 +31,7 @@ To illustrate how fast the 🤗 Tokenizers library is, let’s train a new token
 
 ```{r}
 url <- "https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-raw-v1.zip"
-fpath <- pins::pin(url, name = "wikitext")
+fpath <- pins::pin(url)
 ```
 ### Training the tokenizer
 
@@ -79,6 +79,26 @@ by splitting on whitespace.
 ```{r}
 tokenizer$pre_tokenizer <- pre_tokenizers_whitespace()
 ```
+
+Now, we can just call the `train()` method with any list of files we want to use:
+
+```{r}
+tokenizer$train(fpath, trainer)
+```
+
+This should only take a few seconds to train our tokenizer on the full wikitext dataset! To save the tokenizer in one file that contains all its configuration and vocabulary, just use the `save()` method:
+
+```{r}
+tokenizer$save("data/tokenizer-wiki.json")
+```
+
+and you can reload your tokenizer from that file with the `from_file()` class method:
+
+```{r}
+tokenizer <- tokenizer$from_file("data/tokenizer-wiki.json")
+```
+
+
 
 
 
