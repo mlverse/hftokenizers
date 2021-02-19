@@ -14,6 +14,7 @@ use processors::*;
 use decoders::*;
 use tokenizer::*;
 use encoding::*;
+use trainers::*;
 
 extendr_module! {
     mod hftokenizers;
@@ -24,6 +25,7 @@ extendr_module! {
     use processors;
     use decoders;
     use encoding;
+    use trainers;
 }
 
 
