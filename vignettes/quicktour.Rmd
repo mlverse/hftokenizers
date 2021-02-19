@@ -55,7 +55,25 @@ To train our tokenizer on the wikitext files, we will need to instantiate a trai
 in this case a `BpeTrainer`:
 
 ```{r}
-
+trainer <- trainers_bpe$new(
+  special_tokens=c("[UNK]", "[CLS]", "[SEP]", "[PAD]", "[MASK]")
+)
 ```
+
+We can set the training arguments like `vocab_size` or `min_frequency` (here left 
+at their default values of 30,000 and 0) but the most important part is to give 
+the `special_tokens` we plan to use later on (they are not used at all during 
+training) so that they get inserted in the vocabulary.
+
+> The order in which you write the special tokens list matters: here "[UNK]" will 
+  get the ID 0, "[CLS]" will get the ID 1 and so forth.
+  
+We could train our tokenizer right now, but it wouldn’t be optimal. Without a 
+pre-tokenizer that will split our inputs into words, we might get tokens that 
+overlap several words: for instance we could get an `"it is"` token since those 
+two words often appear next to each other. Using a pre-tokenizer will ensure 
+no token is bigger than a word returned by the pre-tokenizer. Here we want to 
+train a subword BPE tokenizer, and we will use the easiest pre-tokenizer possible 
+by splitting on whitespace.  
 
 

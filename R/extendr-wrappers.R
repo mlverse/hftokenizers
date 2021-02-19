@@ -92,13 +92,9 @@ REncoding$truncate <- function(max_length, stride) .Call(wrap__REncoding__trunca
 #' @export
 `$.REncoding` <- function (self, name) { func <- REncoding[[name]]; environment(func) <- environment(); func }
 
-#' @export
 RBpeTrainer <- new.env(parent = emptyenv())
 
 RBpeTrainer$new <- function(vocab_size, min_frequency, show_progress, special_tokens, limit_alphabet, initial_alphabet, continuing_subword_prefix, end_of_word_suffix) .Call(wrap__RBpeTrainer__new, vocab_size, min_frequency, show_progress, special_tokens, limit_alphabet, initial_alphabet, continuing_subword_prefix, end_of_word_suffix)
 
-#' @rdname RBpeTrainer
-#' @usage NULL
-#' @export
 `$.RBpeTrainer` <- function (self, name) { func <- RBpeTrainer[[name]]; environment(func) <- environment(); func }
 
