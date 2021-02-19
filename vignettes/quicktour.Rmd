@@ -1,0 +1,61 @@
+---
+title: "Quicktour"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quicktour}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+> Port of the Quicktour vignette in 🤗 tokenizers website. Click [here](https://huggingface.co/docs/tokenizers/python/latest/quicktour.html#build-a-tokenizer-from-scratch) for the
+original version.
+
+```{r setup}
+library(hftokenizers)
+```
+
+Let’s have a quick look at the 🤗 Tokenizers library features. The library provides an implementation of today’s most used tokenizers that is both easy to use and blazing fast.
+
+It can be used to instantiate a pretrained tokenizer but we will start our quicktour by building one from scratch and see how we can train it.
+
+## Build a tokenizer from scratch
+
+To illustrate how fast the 🤗 Tokenizers library is, let’s train a new tokenizer on wikitext-103 (516M of text) in just a few seconds. First things first, you will need to download this dataset and unzip it with:
+
+```{r}
+url <- "https://s3.amazonaws.com/research.metamind.io/wikitext/wikitext-103-raw-v1.zip"
+fpath <- pins::pin(url, name = "wikitext")
+```
+### Training the tokenizer
+
+In this tour, we will build and train a Byte-Pair Encoding (BPE) tokenizer. For 
+more information about the different type of tokenizers, check out this guide in 
+the 🤗 Transformers documentation. Here, training the tokenizer means it will 
+learn merge rules by:
+
+- Start with all the characters present in the training corpus as tokens.
+- Identify the most common pair of tokens and merge it into one token.
+- Repeat until the vocabulary (e.g., the number of tokens) has reached the size we want.
+
+The main API of the library is the class Tokenizer, here is how we instantiate 
+one with a BPE model:
+
+```{r}
+tokenizer <- tokenizer$new(model = models_bpe$new(unk_token = "[UNK]"))
+```
+
+To train our tokenizer on the wikitext files, we will need to instantiate a trainer, 
+in this case a `BpeTrainer`:
+
+```{r}
+
+```
+
+
