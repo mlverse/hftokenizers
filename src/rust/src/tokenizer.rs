@@ -84,6 +84,16 @@ impl RTokenizer {
         res.set_attrib(names_symbol(), names);
         res
     }
+
+    fn get_pre_tokenizer (&self) -> &RPreTokenizer {
+        self.tokenizer.get_pre_tokenizer().unwrap()
+    }
+ 
+    fn set_pre_tokenizer (&mut self, pre_tokenizer: &RPreTokenizer) {
+        self.tokenizer.with_pre_tokenizer(pre_tokenizer.clone());
+    }
+
+    
 }
 
 fn pre_tokenized_input_sequence<'s> (obj: Robj) -> std::result::Result<tokenizers::InputSequence<'s>, &'static str> {

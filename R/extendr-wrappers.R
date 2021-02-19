@@ -20,6 +20,10 @@ RTokenizer$decode <- function(ids, skip_special_tokens) .Call(wrap__RTokenizer__
 
 RTokenizer$get_vocab <- function(with_added_tokens) .Call(wrap__RTokenizer__get_vocab, self, with_added_tokens)
 
+RTokenizer$get_pre_tokenizer <- function() .Call(wrap__RTokenizer__get_pre_tokenizer, self)
+
+RTokenizer$set_pre_tokenizer <- function(pre_tokenizer) invisible(.Call(wrap__RTokenizer__set_pre_tokenizer, self, pre_tokenizer))
+
 `$.RTokenizer` <- function (self, name) { func <- RTokenizer[[name]]; environment(func) <- environment(); func }
 
 RModel <- new.env(parent = emptyenv())
@@ -47,6 +51,12 @@ RNormalizer <- new.env(parent = emptyenv())
 RPreTokenizer <- new.env(parent = emptyenv())
 
 `$.RPreTokenizer` <- function (self, name) { func <- RPreTokenizer[[name]]; environment(func) <- environment(); func }
+
+RWhitespace <- new.env(parent = emptyenv())
+
+RWhitespace$new <- function() .Call(wrap__RWhitespace__new)
+
+`$.RWhitespace` <- function (self, name) { func <- RWhitespace[[name]]; environment(func) <- environment(); func }
 
 RPostProcessor <- new.env(parent = emptyenv())
 

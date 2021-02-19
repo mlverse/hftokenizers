@@ -4,10 +4,12 @@
 \alias{trainers_bpe}
 \title{Byte pair encoding trainer class}
 \description{
-Trainer capable of training a BPE model
+Byte pair encoding trainer class
+
+Byte pair encoding trainer class
 }
 \section{Super class}{
-\code{\link[hftokenizers:Trainer]{hftokenizers::Trainer}} -> \code{trainer_bpe}
+\code{\link[hftokenizers:Trainer]{hftokenizers::Trainer}} -> \code{trainers_bpe}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -26,6 +28,7 @@ Trainer capable of training a BPE model
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Trainer capable of training a BPE model
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{trainers_bpe$new(
   vocab_size = NULL,

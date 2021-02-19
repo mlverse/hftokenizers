@@ -76,4 +76,9 @@ no token is bigger than a word returned by the pre-tokenizer. Here we want to
 train a subword BPE tokenizer, and we will use the easiest pre-tokenizer possible 
 by splitting on whitespace.  
 
+```{r}
+tokenizer$pre_tokenizer <- pre_tokenizers_whitespace()
+```
+
+
 

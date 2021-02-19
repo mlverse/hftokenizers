@@ -15,6 +15,7 @@ trainers_bpe <- R6::R6Class(
   "trainers_bpe",
   inherit = trainer,
   public = list(
+    #' @description  
     #' Trainer capable of training a BPE model
     #' 
     #' @param vocab_size (int, optional) – The size of the final vocabulary, including all tokens and alphabet.

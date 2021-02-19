@@ -1,7 +1,8 @@
 use extendr_api::*;
 
+#[derive(Clone)]
 pub struct RPreTokenizer {
-    pre_tokenizer: tokenizers::PreTokenizerWrapper
+    pub pre_tokenizer: tokenizers::PreTokenizerWrapper
 }
 
 #[extendr]
@@ -13,7 +14,22 @@ impl tokenizers::PreTokenizer for RPreTokenizer {
     }
 }
 
+pub struct RWhitespace {}
+
+#[extendr]
+impl RWhitespace {
+    fn new () -> RPreTokenizer {
+        RPreTokenizer{
+            pre_tokenizer: tokenizers::pre_tokenizers::PreTokenizerWrapper::Whitespace(
+                tokenizers::pre_tokenizers::whitespace::Whitespace::default().into()
+            )
+        }
+    }
+}
+
 extendr_module! {
     mod pre_tokenizers;
     impl RPreTokenizer;
+    impl RWhitespace;
 }
+
