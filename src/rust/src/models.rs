@@ -1,11 +1,12 @@
 use crate::trainers::*;
 use tokenizers::Model; 
 use extendr_api::*;
+use serde::{Deserialize, Serialize};
 
 // Models ---------------------
 
 #[extendr]
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct RModel {
     pub model: tokenizers::ModelWrapper
 }

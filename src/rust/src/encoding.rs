@@ -1,6 +1,8 @@
 use extendr_api::*;
+use serde::{Deserialize, Serialize};
 
 #[extendr]
+#[derive(Deserialize, Serialize)]
 pub struct REncoding {
     pub encoding: tokenizers::Encoding
 }

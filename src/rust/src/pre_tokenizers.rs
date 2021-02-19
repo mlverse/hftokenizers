@@ -1,6 +1,7 @@
 use extendr_api::*;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct RPreTokenizer {
     pub pre_tokenizer: tokenizers::PreTokenizerWrapper
 }

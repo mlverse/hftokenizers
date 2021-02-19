@@ -24,6 +24,8 @@ RTokenizer$get_pre_tokenizer <- function() .Call(wrap__RTokenizer__get_pre_token
 
 RTokenizer$set_pre_tokenizer <- function(pre_tokenizer) invisible(.Call(wrap__RTokenizer__set_pre_tokenizer, self, pre_tokenizer))
 
+RTokenizer$save <- function(path, pretty) invisible(.Call(wrap__RTokenizer__save, self, path, pretty))
+
 #' @export
 `$.RTokenizer` <- function (self, name) { func <- RTokenizer[[name]]; environment(func) <- environment(); func }
 

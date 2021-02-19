@@ -1,5 +1,7 @@
 use extendr_api::*;
+use serde::{Deserialize, Serialize};
 
+#[derive(Serialize, Deserialize)]
 pub struct RNormalizer {
     normalizer: tokenizers::NormalizerWrapper
 }

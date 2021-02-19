@@ -1,5 +1,7 @@
 use extendr_api::*;
+use serde::{Deserialize, Serialize};
 
+#[derive(Deserialize, Serialize)]
 pub struct RPostProcessor {
     post_processor: tokenizers::PostProcessorWrapper
 }

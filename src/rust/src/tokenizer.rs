@@ -92,7 +92,11 @@ impl RTokenizer {
             .map(|(k, _)| k)
             .collect_robj();
         
-        res.set_attrib(names_symbol(), names);
+        match res.set_attrib(names_symbol(), names) {
+            Err(e) => panic!("Error: {}", e),
+            _ => {}
+        }
+        
         res
     }
 
@@ -102,6 +106,13 @@ impl RTokenizer {
  
     fn set_pre_tokenizer (&mut self, pre_tokenizer: &RPreTokenizer) {
         self.tokenizer.with_pre_tokenizer(pre_tokenizer.clone());
+    }
+
+    fn save(&self, path: &str, pretty: bool) {
+        match self.tokenizer.save(path, pretty) {
+            Err(e) => panic!("Error: {}", e),
+            _ => {}
+        }
     }
 
 

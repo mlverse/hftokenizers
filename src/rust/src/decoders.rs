@@ -1,5 +1,7 @@
 use extendr_api::*;
+use serde::{Deserialize, Serialize};
 
+#[derive(Deserialize, Serialize)]
 pub struct RDecoder {
     pub decoder: tokenizers::DecoderWrapper
 }

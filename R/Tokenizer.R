@@ -27,6 +27,9 @@ tokenizer <- R6::R6Class(
     # TODO is this the correct default?
     get_vocab = function(with_added_tokens = FALSE) {
       self$obj$get_vocab(with_added_tokens)
+    },
+    save = function(path, pretty = FALSE) {
+      self$obj$save(path.expand(path), pretty)
     }
   ),
   active = list(
