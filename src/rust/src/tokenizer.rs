@@ -96,7 +96,7 @@ impl RTokenizer {
             Err(e) => panic!("Error: {}", e),
             _ => {}
         }
-        
+
         res
     }
 
@@ -115,6 +115,9 @@ impl RTokenizer {
         }
     }
 
+    fn from_file (path : &str) -> Self {
+        RTokenizer{tokenizer: Tokenizer::from_file(path).unwrap()}
+    }
 
 }
 

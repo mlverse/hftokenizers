@@ -48,7 +48,7 @@ The main API of the library is the class Tokenizer, here is how we instantiate
 one with a BPE model:
 
 ```{r}
-tokenizer <- tokenizer$new(model = models_bpe$new(unk_token = "[UNK]"))
+tok <- tokenizer$new(model = models_bpe$new(unk_token = "[UNK]"))
 ```
 
 To train our tokenizer on the wikitext files, we will need to instantiate a trainer, 
@@ -77,25 +77,25 @@ train a subword BPE tokenizer, and we will use the easiest pre-tokenizer possibl
 by splitting on whitespace.  
 
 ```{r}
-tokenizer$pre_tokenizer <- pre_tokenizers_whitespace()
+tok$pre_tokenizer <- pre_tokenizers_whitespace()
 ```
 
 Now, we can just call the `train()` method with any list of files we want to use:
 
 ```{r}
-tokenizer$train(fpath, trainer)
+tok$train(fpath, trainer)
 ```
 
 This should only take a few seconds to train our tokenizer on the full wikitext dataset! To save the tokenizer in one file that contains all its configuration and vocabulary, just use the `save()` method:
 
 ```{r}
-tokenizer$save("tokenizer-wiki.json")
+tok$save("tokenizer-wiki.json")
 ```
 
 and you can reload your tokenizer from that file with the `from_file()` class method:
 
 ```{r}
-tokenizer <- tokenizer$from_file("tokenizer-wiki.json")
+tok <- tokenizer$from_file("tokenizer-wiki.json")
 ```
 
 

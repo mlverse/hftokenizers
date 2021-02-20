@@ -12,6 +12,10 @@ tokenizer <- R6::R6Class(
   public = list(
     obj = NULL,
     initialize = function(model) {
+      if (inherits(model, "RTokenizer")) {
+        self$obj <- model
+        return()
+      }
       self$obj <- RTokenizer$from_model(model$ptr)
     },
     train = function(files, trainer = NULL) {
@@ -49,3 +53,7 @@ tokenizer <- R6::R6Class(
     }
   )
 )
+
+tokenizer$from_file <- function(path) {
+  tokenizer$new(RTokenizer$from_file(path.expand(path)))
+}
