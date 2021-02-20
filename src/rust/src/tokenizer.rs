@@ -119,6 +119,10 @@ impl RTokenizer {
         RTokenizer{tokenizer: Tokenizer::from_file(path).unwrap()}
     }
 
+    fn token_to_id (&self, token: &str) -> Option<u32> {
+        self.tokenizer.token_to_id(token)
+    }
+
 }
 
 fn pre_tokenized_input_sequence<'s> (obj: Robj) -> std::result::Result<tokenizers::InputSequence<'s>, &'static str> {

@@ -34,6 +34,9 @@ tokenizer <- R6::R6Class(
     },
     save = function(path, pretty = FALSE) {
       self$obj$save(path.expand(path), pretty)
+    },
+    token_to_id = function(token) {
+      self$obj$token_to_id(token)
     }
   ),
   active = list(

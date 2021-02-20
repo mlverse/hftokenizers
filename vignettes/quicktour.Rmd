@@ -139,9 +139,9 @@ We might want our tokenizer to automatically add special tokens, like `"[CLS]"` 
 When we built our tokenizer, we set `"[CLS]"` and `"[SEP]"` in positions 1 and 2 of our list of special tokens, so this should be their IDs. To double-check, we can use the `token_to_id()` method:
 
 ```{r}
-#tokenizer$token_to_id("[SEP]")
+tok$token_to_id("[SEP]")
 ```
-
+Here is how we can set the post-processing to give us the traditional BERT inputs:
 
 
 

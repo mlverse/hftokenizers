@@ -28,6 +28,8 @@ RTokenizer$save <- function(path, pretty) invisible(.Call(wrap__RTokenizer__save
 
 RTokenizer$from_file <- function(path) .Call(wrap__RTokenizer__from_file, path)
 
+RTokenizer$token_to_id <- function(token) .Call(wrap__RTokenizer__token_to_id, self, token)
+
 #' @export
 `$.RTokenizer` <- function (self, name) { func <- RTokenizer[[name]]; environment(func) <- environment(); func }
 
