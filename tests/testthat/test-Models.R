@@ -8,8 +8,8 @@ test_that("bpe", {
   files <- model$save(tmp, "hi")  
   
   expect_equal(
-    sort(files),
-    sort(list.files(tmp, full.names = TRUE))
+    sort(normalizePath(files)),
+    sort(normalizePath(list.files(tmp, full.names = TRUE)))
   )
   
   # reload files
