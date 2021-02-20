@@ -98,6 +98,49 @@ and you can reload your tokenizer from that file with the `from_file()` class me
 tok <- tokenizer$from_file("tokenizer-wiki.json")
 ```
 
+### Using the tokenizer
+
+
+Now that we have trained a tokenizer, we can use it on any text we want with the `encode()` method:
+
+```{r}
+output <- tok$encode("Hello, y'all! How are you 😁 ?")
+```
+
+This applied the full pipeline of the tokenizer on the text, returning an `Encoding` object. To learn more about this pipeline, and how to apply (or customize) parts of it, check out [this page](TODO).
+
+This `Encoding` object then has all the attributes you need for your deep learning model (or other). The `tokens` attribute contains the segmentation of your text in tokens:
+
+```{r}
+output$tokens
+```
+
+Similarly, the `ids` attribute will contain the index of each of those tokens in the tokenizer’s vocabulary:
+
+```{r}
+output$ids
+```
+
+An important feature of the 🤗 Tokenizers library is that it comes with full alignment tracking, meaning you can always get the part of your original sentence that corresponds to a given token. Those are stored in the offsets attribute of our `Encoding` object. For instance, let’s assume we would want to find back what caused the `"[UNK]"` token to appear, which is the token at index 10 in the list, we can just ask for the offset at the index:
+
+```{r}
+output$offsets[[10]]
+```
+
+and those are the indices that correspond to the emoji in the original sentence:
+
+```{r}
+substr("Hello, y'all! How are you 😁 ?", 26, 27)
+```
+### Post-processing
+
+We might want our tokenizer to automatically add special tokens, like `"[CLS]"` or `"[SEP]"`. To do this, we use a post-processor. `TemplateProcessing` is the most commonly used, you just have to specify a template for the processing of single sentences and pairs of sentences, along with the special tokens and their IDs.
+
+When we built our tokenizer, we set `"[CLS]"` and `"[SEP]"` in positions 1 and 2 of our list of special tokens, so this should be their IDs. To double-check, we can use the `token_to_id()` method:
+
+```{r}
+#tokenizer$token_to_id("[SEP]")
+```
 
 
 
