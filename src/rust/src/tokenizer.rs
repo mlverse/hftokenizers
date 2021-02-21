@@ -192,6 +192,51 @@ impl RTokenizer {
         self.tokenizer.token_to_id(token)
     }
 
+    fn enable_padding (&mut self, direction: Nullable<&str>, pad_id : Nullable<u32>,
+        pad_type_id : Nullable<u32>, pad_token: Nullable<&str>, length : Nullable<u32>,
+        pad_to_multiple_of : Nullable<u32>) {
+        let mut params = tokenizers::PaddingParams::default();
+
+        match direction {
+            Nullable::NotNull(value) => {
+                params.direction = match value {
+                    "left" => tokenizers::PaddingDirection::Left,
+                    "right" => tokenizers::PaddingDirection::Right,
+                    _ => {panic!("Unknown padding direction")}
+                };
+            },
+            _ => {}
+        }
+
+        match pad_id {
+            Nullable::NotNull(value) => params.pad_id = value,
+            Nullable::Null => {}
+        }
+
+        match pad_type_id {
+            Nullable::NotNull(value) => params.pad_type_id = value,
+            Nullable::Null => {}
+        }
+
+        match pad_token {
+            Nullable::NotNull(value) => params.pad_token = String::from(value),
+            Nullable::Null => {}
+        }
+
+        match length {
+            Nullable::NotNull(value) => params.strategy = tokenizers::PaddingStrategy::Fixed(value as usize),
+            Nullable::Null => params.strategy = tokenizers::PaddingStrategy::BatchLongest
+        }
+
+        match pad_to_multiple_of {
+            Nullable::NotNull(value) => params.pad_to_multiple_of = Option::Some(value as usize),
+            Nullable::Null => {}
+        }
+
+
+        self.tokenizer.with_padding(Some(params));
+    }
+
 }
 
 fn pre_tokenized_input_sequence<'s> (obj: Robj) -> std::result::Result<tokenizers::InputSequence<'s>, &'static str> {
