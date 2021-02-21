@@ -47,6 +47,6 @@ tokenizer$
   new(models_bpe$new())$
   train(normalizePath("small.txt"))$
   encode(c("hello world"))$
-  get_ids()
+  ids
 #> [1]  57 427  93 275  61  53
 ```
