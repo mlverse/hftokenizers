@@ -22,7 +22,7 @@ tokenizer <- R6::R6Class(
       self$obj$train(files, null_or_obj(trainer))
       invisible(self)
     },
-    encode = function(sequence, pair = NULL, is_pretokenized = FALSE, add_special_tokens = FALSE) {
+    encode = function(sequence, pair = NULL, is_pretokenized = FALSE, add_special_tokens = TRUE) {
       encoding$new(self$obj$encode(sequence, pair, is_pretokenized, add_special_tokens))
     },
     decode = function(ids, skip_special_tokens=TRUE) {
@@ -52,6 +52,14 @@ tokenizer <- R6::R6Class(
         self$obj$get_pre_tokenizer()
       } else {
         self$obj$set_pre_tokenizer(pre_tokenizer)
+      }
+    },
+    
+    post_processor = function(post_processor) {
+      if (missing(post_processor)) {
+        self$obj$get_post_processor()
+      } else {
+        self$obj$set_post_processor(post_processor$obj)
       }
     }
   )

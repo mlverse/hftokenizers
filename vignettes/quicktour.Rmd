@@ -82,14 +82,23 @@ tok$pre_tokenizer <- pre_tokenizers_whitespace()
 
 Now, we can just call the `train()` method with any list of files we want to use:
 
-```{r}
+```{r, eval = FALSE}
 tok$train(fpath, trainer)
 ```
+```{r include=FALSE}
+if (!file.exists("tokenizer-wiki.json"))
+  tok$train(fpath, trainer)
+```
+
 
 This should only take a few seconds to train our tokenizer on the full wikitext dataset! To save the tokenizer in one file that contains all its configuration and vocabulary, just use the `save()` method:
 
-```{r}
+```{r, eval = FALSE}
 tok$save("tokenizer-wiki.json")
+```
+```{r include=FALSE}
+if (!file.exists("tokenizer-wiki.json"))
+  tok$save("tokenizer-wiki.json")
 ```
 
 and you can reload your tokenizer from that file with the `from_file()` class method:
@@ -143,5 +152,27 @@ tok$token_to_id("[SEP]")
 ```
 Here is how we can set the post-processing to give us the traditional BERT inputs:
 
+```{r}
+tok$post_processor <- post_processors_template_processing$new(
+  single="[CLS] $A [SEP]",
+  pair="[CLS] $A [SEP] $B:1 [SEP]:1",
+  special_tokens=list(
+     list("[CLS]", tok$token_to_id("[CLS]")),
+     list("[SEP]", tok$token_to_id("[SEP]"))
+  )
+)
+```
+
+Let’s go over this snippet of code in more details. First we specify the template for single sentences: those should have the form `"[CLS] $A [SEP]"` where `$A` represents our sentence.
+
+Then, we specify the template for sentence pairs, which should have the form `"[CLS] $A [SEP] $B [SEP]"` where `$A` represents the first sentence and `$B` the second one. The `:1` added in the template represent the type IDs we want for each part of our input: it defaults to 0 for everything (which is why we don’t have `$A:0`) and here we set it to 1 for the tokens of the second sentence and the last `"[SEP]"` token.
+
+Lastly, we specify the special tokens we used and their IDs in our tokenizer’s vocabulary.
+
+To check out this worked properly, let’s try to encode the same sentence as before:
+
+```{r}
+tok$encode("Hello, y'all! How are you 😁 ?")$tokens
+```
 
 

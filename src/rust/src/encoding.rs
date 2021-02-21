@@ -2,7 +2,7 @@ use extendr_api::*;
 use serde::{Deserialize, Serialize};
 
 #[extendr]
-#[derive(Deserialize, Serialize)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct REncoding {
     pub encoding: tokenizers::Encoding
 }
