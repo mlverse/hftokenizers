@@ -16,6 +16,8 @@ The tokenizer class
 \item \href{#method-encode}{\code{tokenizer$encode()}}
 \item \href{#method-decode}{\code{tokenizer$decode()}}
 \item \href{#method-get_vocab}{\code{tokenizer$get_vocab()}}
+\item \href{#method-save}{\code{tokenizer$save()}}
+\item \href{#method-token_to_id}{\code{tokenizer$token_to_id()}}
 \item \href{#method-clone}{\code{tokenizer$clone()}}
 }
 }
@@ -66,6 +68,24 @@ The tokenizer class
 \subsection{Method \code{get_vocab()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{tokenizer$get_vocab(with_added_tokens = FALSE)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-save"></a>}}
+\if{latex}{\out{\hypertarget{method-save}{}}}
+\subsection{Method \code{save()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{tokenizer$save(path, pretty = FALSE)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-token_to_id"></a>}}
+\if{latex}{\out{\hypertarget{method-token_to_id}{}}}
+\subsection{Method \code{token_to_id()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{tokenizer$token_to_id(token)}\if{html}{\out{</div>}}
 }
 
 }

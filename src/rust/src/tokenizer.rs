@@ -108,6 +108,14 @@ impl RTokenizer {
         self.tokenizer.with_pre_tokenizer(pre_tokenizer.clone());
     }
 
+    fn get_post_processor (&self) -> &RPostProcessor {
+        self.tokenizer.get_post_processor().unwrap()
+    }
+ 
+    fn set_post_processor (&mut self, post_processor: &RPostProcessor) {
+        self.tokenizer.with_post_processor(post_processor.clone());
+    }
+
     fn save(&self, path: &str, pretty: bool) {
         match self.tokenizer.save(path, pretty) {
             Err(e) => panic!("Error: {}", e),

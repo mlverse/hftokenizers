@@ -53,6 +53,14 @@ tokenizer <- R6::R6Class(
       } else {
         self$obj$set_pre_tokenizer(pre_tokenizer)
       }
+    },
+    
+    post_processor = function(post_processor) {
+      if (missing(post_processor)) {
+        self$obj$get_post_processor()
+      } else {
+        self$obj$set_post_processor(post_processor$obj)
+      }
     }
   )
 )

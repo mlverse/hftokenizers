@@ -24,6 +24,10 @@ RTokenizer$get_pre_tokenizer <- function() .Call(wrap__RTokenizer__get_pre_token
 
 RTokenizer$set_pre_tokenizer <- function(pre_tokenizer) invisible(.Call(wrap__RTokenizer__set_pre_tokenizer, self, pre_tokenizer))
 
+RTokenizer$get_post_processor <- function() .Call(wrap__RTokenizer__get_post_processor, self)
+
+RTokenizer$set_post_processor <- function(post_processor) invisible(.Call(wrap__RTokenizer__set_post_processor, self, post_processor))
+
 RTokenizer$save <- function(path, pretty) invisible(.Call(wrap__RTokenizer__save, self, path, pretty))
 
 RTokenizer$from_file <- function(path) .Call(wrap__RTokenizer__from_file, path)
@@ -74,6 +78,23 @@ RPostProcessor <- new.env(parent = emptyenv())
 
 #' @export
 `$.RPostProcessor` <- function (self, name) { func <- RPostProcessor[[name]]; environment(func) <- environment(); func }
+
+RSpecialToken <- new.env(parent = emptyenv())
+
+#' @export
+`$.RSpecialToken` <- function (self, name) { func <- RSpecialToken[[name]]; environment(func) <- environment(); func }
+
+VecRSpecialToken <- new.env(parent = emptyenv())
+
+#' @export
+`$.VecRSpecialToken` <- function (self, name) { func <- VecRSpecialToken[[name]]; environment(func) <- environment(); func }
+
+RTemplateProcessing <- new.env(parent = emptyenv())
+
+RTemplateProcessing$new <- function(single, pair, special_tokens) .Call(wrap__RTemplateProcessing__new, single, pair, special_tokens)
+
+#' @export
+`$.RTemplateProcessing` <- function (self, name) { func <- RTemplateProcessing[[name]]; environment(func) <- environment(); func }
 
 RDecoder <- new.env(parent = emptyenv())
 
