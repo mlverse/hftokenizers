@@ -14,6 +14,29 @@ struct RTokenizer {
     pub tokenizer: Tokenizer
 }
 
+fn make_encode_input<'a> (sequence : Robj, pair : Nullable<Robj>, is_pretokenized: bool) 
+-> tokenizers::EncodeInput<'a> {
+
+    let sequence: tokenizers::InputSequence = if is_pretokenized {
+        pre_tokenized_input_sequence(sequence).unwrap()
+    } else {
+        text_input_sequence(sequence).unwrap()
+    };
+
+    
+    match pair {
+        extendr_api::wrapper::Nullable::NotNull(pair) => {
+            let pair: tokenizers::InputSequence = if is_pretokenized {
+                pre_tokenized_input_sequence(pair).unwrap()
+            } else {
+                text_input_sequence(pair).unwrap()
+            };
+            tokenizers::EncodeInput::Dual(sequence, pair)
+        }
+        extendr_api::wrapper::Nullable::Null => tokenizers::EncodeInput::Single(sequence),
+    }
+}
+
 #[extendr]
 impl RTokenizer {
     fn from_model (model: &RModel) -> Self {
@@ -39,25 +62,8 @@ impl RTokenizer {
     }
 
     fn encode (&self, sequence : Robj, pair: Nullable<Robj>, is_pretokenized: bool, add_special_tokens: bool) -> REncoding {
-        
-        let sequence: tokenizers::InputSequence = if is_pretokenized {
-            pre_tokenized_input_sequence(sequence).unwrap()
-        } else {
-            text_input_sequence(sequence).unwrap()
-        };
+        let input = make_encode_input(sequence, pair, is_pretokenized);
 
-        let input = match pair {
-            extendr_api::wrapper::Nullable::NotNull(pair) => {
-                let pair: tokenizers::InputSequence = if is_pretokenized {
-                    pre_tokenized_input_sequence(pair).unwrap()
-                } else {
-                    text_input_sequence(pair).unwrap()
-                };
-                tokenizers::EncodeInput::Dual(sequence, pair)
-            }
-            extendr_api::wrapper::Nullable::Null => tokenizers::EncodeInput::Single(sequence),
-        };
-        
         match self.tokenizer.encode_char_offsets(input, add_special_tokens) {
             Err(e) => panic!("Error while encoding: {}", e),
             Ok(v) => REncoding{encoding: v}
@@ -75,6 +81,61 @@ impl RTokenizer {
             Err(e) => panic!("Error while decoding: {}", e),
             Ok(v) => v.as_str().to_owned()
         }
+    }
+
+    fn encode_batch (&self, inputs: Robj, add_special_tokens: bool) -> Vec<Robj> {
+
+        let mut encoding_inputs = Vec::<tokenizers::EncodeInput>::new();
+        if let Some(list) = inputs.as_list_iter() {
+
+            let mut inputs_str : Vec<Option<Vec<String>>> = list
+                .map(|el| el.as_string_vector())
+                .collect();
+
+            if inputs_str.len() == 1 {
+                inputs_str.push(Option::None);
+            };
+
+            match &inputs_str[0] {
+                Some(sequence) => {
+                    match &inputs_str[1] {
+                        Some(pair) => {
+                            for (s, p) in sequence.iter().zip(pair.iter()) {
+                                encoding_inputs.push(
+                                    tokenizers::EncodeInput::Dual(
+                                        tokenizers::InputSequence::from(s.clone()),
+                                        tokenizers::InputSequence::from(p.clone())
+                                    )
+                                );
+                            }
+                        },
+                        None => {
+                            for s in sequence.iter() {
+                                encoding_inputs.push(
+                                    tokenizers::EncodeInput::Single(
+                                        tokenizers::InputSequence::from(s.clone())
+                                    )
+                                );
+                            }
+                        }
+                    }
+                },
+                None => {
+                    panic!("Need at a least a sequence.");
+                }
+            };
+             
+        } else {
+            panic!("Not a list.")
+        }
+
+        self
+            .tokenizer
+            .encode_batch(encoding_inputs, add_special_tokens)
+            .unwrap()
+            .iter()
+            .map(|v| Robj::from(REncoding{encoding: v.clone()}))
+            .collect()
     }
 
     fn get_vocab(&self, with_added_tokens: bool) -> Robj {

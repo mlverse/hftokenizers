@@ -174,5 +174,42 @@ To check out this worked properly, let’s try to encode the same sentence as be
 ```{r}
 tok$encode("Hello, y'all! How are you 😁 ?")$tokens
 ```
+To check the results on a pair of sentences, we just pass the two sentences to `encode()`:
+
+```{r}
+output <- tok$encode("Hello, y'all!", "How are you 😁 ?")
+```
+```{r}
+output$tokens
+```
+
+You can then check the type IDs attributed to each token is correct with
+
+```{r}
+output$type_ids
+```
+
+If you save your tokenizer with `save()`, the post-processor will be saved along.
+
+## Encoding multiple sentences in a batch
+
+To get the full speed of the 🤗 Tokenizers library, it’s best to process your texts by batches by using the `encode_batch()` method:
+
+```{r}
+output <- tok$encode_batch(c("Hello, y'all!", "How are you 😁 ?"))
+```
+
+The output is then a list of `Encoding` objects like the ones we saw before. You can process together as many texts as you like, as long as it fits in memory.
+
+To process a batch of sentences pairs, pass two lists to the `encode_batch()` method: the list of sentences A and the list of sentences B:
+
+```{r}
+output <- tok$encode_batch(
+  list(
+    c("Hello, y'all!", "How are you 😁 ?"), 
+    c("Hello to you too!", "I'm fine, thank you!")
+  )
+)
+```
 
 

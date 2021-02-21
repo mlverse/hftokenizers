@@ -37,6 +37,14 @@ tokenizer <- R6::R6Class(
     },
     token_to_id = function(token) {
       self$obj$token_to_id(token)
+    },
+    encode_batch = function(inputs, is_pre_tokenized = FALSE, add_special_tokens = TRUE) {
+      if (!is.list(inputs))
+        inputs <- list(inputs)
+      lapply(
+        self$obj$encode_batch(inputs, add_special_tokens),
+        encoding$new
+      )
     }
   ),
   active = list(

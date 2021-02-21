@@ -19,6 +19,12 @@ encoding <- R6::R6Class(
       else
         stop("Can't set the ids attribute.")
     },
+    type_ids = function(type_ids) {
+      if (missing(type_ids))
+        self$obj$get_type_ids()
+      else
+        stop("Can't set the type_ids attribute.")
+    },
     offsets = function(offsets) {
       if (missing(offsets))
         self$obj$get_offsets()
