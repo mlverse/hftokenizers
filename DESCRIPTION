@@ -22,3 +22,4 @@ Suggests:
 Imports: 
     R6
 VignetteBuilder: knitr
+URL: https://mlverse.github.io/hftokenizers
