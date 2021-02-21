@@ -100,16 +100,16 @@ impl RTokenizer {
         res
     }
 
-    fn get_pre_tokenizer (&self) -> &RPreTokenizer {
-        self.tokenizer.get_pre_tokenizer().unwrap()
+    fn get_pre_tokenizer (&self) -> RPreTokenizer {
+        self.tokenizer.get_pre_tokenizer().unwrap().clone()
     }
  
     fn set_pre_tokenizer (&mut self, pre_tokenizer: &RPreTokenizer) {
         self.tokenizer.with_pre_tokenizer(pre_tokenizer.clone());
     }
 
-    fn get_post_processor (&self) -> &RPostProcessor {
-        self.tokenizer.get_post_processor().unwrap()
+    fn get_post_processor (&self) -> RPostProcessor {
+        self.tokenizer.get_post_processor().unwrap().clone()
     }
  
     fn set_post_processor (&mut self, post_processor: &RPostProcessor) {

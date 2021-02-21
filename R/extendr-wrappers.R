@@ -76,6 +76,8 @@ RWhitespace$new <- function() .Call(wrap__RWhitespace__new)
 
 RPostProcessor <- new.env(parent = emptyenv())
 
+RPostProcessor$process <- function(encoding, pair_encoding, add_special_tokens) .Call(wrap__RPostProcessor__process, self, encoding, pair_encoding, add_special_tokens)
+
 #' @export
 `$.RPostProcessor` <- function (self, name) { func <- RPostProcessor[[name]]; environment(func) <- environment(); func }
 

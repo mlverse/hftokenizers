@@ -22,7 +22,7 @@ tokenizer <- R6::R6Class(
       self$obj$train(files, null_or_obj(trainer))
       invisible(self)
     },
-    encode = function(sequence, pair = NULL, is_pretokenized = FALSE, add_special_tokens = FALSE) {
+    encode = function(sequence, pair = NULL, is_pretokenized = FALSE, add_special_tokens = TRUE) {
       encoding$new(self$obj$encode(sequence, pair, is_pretokenized, add_special_tokens))
     },
     decode = function(ids, skip_special_tokens=TRUE) {

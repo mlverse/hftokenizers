@@ -1,4 +1,6 @@
 use extendr_api::*;
+use crate::encoding::*;
+use tokenizers::PostProcessor;
 use std::convert::TryFrom;
 use serde::{Deserialize, Serialize};
 
@@ -8,7 +10,18 @@ pub struct RPostProcessor {
 }
 
 #[extendr]
-impl RPostProcessor {}
+impl RPostProcessor {
+    fn process (&self, encoding: &REncoding, pair_encoding: Nullable<&REncoding>, add_special_tokens: bool) -> REncoding {
+        
+        let pair_encoding = match pair_encoding {
+            Nullable::NotNull(v) => Option::Some(v.clone().encoding),
+            Nullable::Null => Option::None
+        };
+
+        let out = self.post_processor.process(encoding.clone().encoding, pair_encoding, add_special_tokens);
+        REncoding{encoding: out.unwrap()}
+    }
+}
 
 impl tokenizers::PostProcessor for RPostProcessor {
     fn added_tokens(&self, is_pair: bool) -> usize {

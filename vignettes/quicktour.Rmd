@@ -82,13 +82,13 @@ tok$pre_tokenizer <- pre_tokenizers_whitespace()
 
 Now, we can just call the `train()` method with any list of files we want to use:
 
-```{r, eval = FALSE}
+```{r}
 tok$train(fpath, trainer)
 ```
 
 This should only take a few seconds to train our tokenizer on the full wikitext dataset! To save the tokenizer in one file that contains all its configuration and vocabulary, just use the `save()` method:
 
-```{r, eval = FALSE}
+```{r}
 tok$save("tokenizer-wiki.json")
 ```
 
@@ -163,7 +163,7 @@ Lastly, we specify the special tokens we used and their IDs in our tokenizer’s
 To check out this worked properly, let’s try to encode the same sentence as before:
 
 ```{r}
-encoding <- tok$encode("Hello, y'all! How are you 😁 ?")
+tok$encode("Hello, y'all! How are you 😁 ?")$tokens
 ```
 
 
