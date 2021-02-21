@@ -18,6 +18,8 @@ RTokenizer$encode <- function(sequence, pair, is_pretokenized, add_special_token
 
 RTokenizer$decode <- function(ids, skip_special_tokens) .Call(wrap__RTokenizer__decode, self, ids, skip_special_tokens)
 
+RTokenizer$encode_batch <- function(inputs, add_special_tokens) .Call(wrap__RTokenizer__encode_batch, self, inputs, add_special_tokens)
+
 RTokenizer$get_vocab <- function(with_added_tokens) .Call(wrap__RTokenizer__get_vocab, self, with_added_tokens)
 
 RTokenizer$get_pre_tokenizer <- function() .Call(wrap__RTokenizer__get_pre_tokenizer, self)
