@@ -7,12 +7,22 @@
 Provides a way to specify templates in order to add the special tokens to each
 input sequence as relevant.
 }
+\section{Super class}{
+\code{\link[hftokenizers:post_processors]{hftokenizers::post_processors}} -> \code{processors_template_processing}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{post_processors_template_processing$new()}}
 \item \href{#method-clone}{\code{post_processors_template_processing$clone()}}
 }
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="hftokenizers" data-topic="post_processors" data-id="process">}\href{../../hftokenizers/html/post_processors.html#method-process}{\code{hftokenizers::post_processors$process()}}\out{</span>}
+}
+\out{</details>}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}

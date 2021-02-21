@@ -86,6 +86,7 @@ impl REncoding {
     self.encoding.truncate(max_length as usize, stride as usize);
     Ok(())
   }
+  
 }
 
 extendr_module! {

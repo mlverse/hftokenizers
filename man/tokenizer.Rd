@@ -18,6 +18,8 @@ The tokenizer class
 \item \href{#method-get_vocab}{\code{tokenizer$get_vocab()}}
 \item \href{#method-save}{\code{tokenizer$save()}}
 \item \href{#method-token_to_id}{\code{tokenizer$token_to_id()}}
+\item \href{#method-encode_batch}{\code{tokenizer$encode_batch()}}
+\item \href{#method-enable_padding}{\code{tokenizer$enable_padding()}}
 \item \href{#method-clone}{\code{tokenizer$clone()}}
 }
 }
@@ -48,7 +50,7 @@ The tokenizer class
   sequence,
   pair = NULL,
   is_pretokenized = FALSE,
-  add_special_tokens = FALSE
+  add_special_tokens = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -88,6 +90,58 @@ The tokenizer class
 \if{html}{\out{<div class="r">}}\preformatted{tokenizer$token_to_id(token)}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-encode_batch"></a>}}
+\if{latex}{\out{\hypertarget{method-encode_batch}{}}}
+\subsection{Method \code{encode_batch()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{tokenizer$encode_batch(
+  inputs,
+  is_pre_tokenized = FALSE,
+  add_special_tokens = TRUE
+)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-enable_padding"></a>}}
+\if{latex}{\out{\hypertarget{method-enable_padding}{}}}
+\subsection{Method \code{enable_padding()}}{
+Enable the padding
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{tokenizer$enable_padding(
+  direction = "right",
+  pad_id = 0,
+  pad_type_id = 0,
+  pad_token = "[PAD]",
+  length = NULL,
+  pad_to_multiple_of = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{direction}}{(str, optional, defaults to right) – The direction in which
+to pad. Can be either right or left}
+
+\item{\code{pad_id}}{(int, defaults to 0) – The id to be used when padding}
+
+\item{\code{pad_type_id}}{(int, defaults to 0) – The type id to be used when padding}
+
+\item{\code{pad_token}}{(str, defaults to \verb{[PAD]}) – The pad token to be used when padding}
+
+\item{\code{length}}{(int, optional) – If specified, the length at which to pad.
+If not specified we pad using the size of the longest sequence in a batch.}
+
+\item{\code{pad_to_multiple_of}}{(int, optional) – If specified, the padding
+length should always snap to the next multiple of the given value.
+For example if we were going to pad with a length of 250 but
+\code{pad_to_multiple_of=8} then we will pad to 256.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

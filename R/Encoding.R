@@ -30,6 +30,12 @@ encoding <- R6::R6Class(
         self$obj$get_offsets()
       else
         stop("Can't set the offsets attribute.")
+    },
+    attention_mask = function(attention_mask) {
+      if (missing(attention_mask))
+        self$obj$get_attention_mask()
+      else
+        stop("Can't set the attention_mask attribute.")
     }
   )
 )

@@ -36,6 +36,8 @@ RTokenizer$from_file <- function(path) .Call(wrap__RTokenizer__from_file, path)
 
 RTokenizer$token_to_id <- function(token) .Call(wrap__RTokenizer__token_to_id, self, token)
 
+RTokenizer$enable_padding <- function(direction, pad_id, pad_type_id, pad_token, length, pad_to_multiple_of) invisible(.Call(wrap__RTokenizer__enable_padding, self, direction, pad_id, pad_type_id, pad_token, length, pad_to_multiple_of))
+
 #' @export
 `$.RTokenizer` <- function (self, name) { func <- RTokenizer[[name]]; environment(func) <- environment(); func }
 
