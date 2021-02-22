@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/index.html</loc>
+  </url>
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/reference/hftokenizers.html</loc>
+  </url>
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/reference/make_wrappers.html</loc>
+  </url>
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/reference/post_processors_template_processing.html</loc>
+  </url>
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/reference/pre_tokenizers_whitespace.html</loc>
+  </url>
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/reference/tokenizer.html</loc>
+  </url>
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/reference/trainers_bpe.html</loc>
+  </url>
+  <url>
+    <loc>https://mlverse.github.io/hftokenizers/articles/quicktour.html</loc>
+  </url>
+</urlset>
