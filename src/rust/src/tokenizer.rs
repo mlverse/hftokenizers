@@ -1,4 +1,4 @@
-use extendr_api::*;
+use extendr_api::prelude::*;
 use crate::models::*;
 use crate::pre_tokenizers::*;
 use crate::normalizers::*;
@@ -86,10 +86,12 @@ impl RTokenizer {
     fn encode_batch (&self, inputs: Robj, add_special_tokens: bool) -> Vec<Robj> {
 
         let mut encoding_inputs = Vec::<tokenizers::EncodeInput>::new();
-        if let Some(list) = inputs.as_list_iter() {
+
+        if let Some(list) = inputs.as_list() {
 
             let mut inputs_str : Vec<Option<Vec<String>>> = list
-                .map(|el| el.as_string_vector())
+                .iter()
+                .map(|(nm, val)| val.as_string_vector())
                 .collect();
 
             if inputs_str.len() == 1 {

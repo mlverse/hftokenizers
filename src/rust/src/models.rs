@@ -1,6 +1,7 @@
 use crate::trainers::*;
+use extendr_api::prelude::*;
+use std::collections::HashMap;
 use tokenizers::Model; 
-use extendr_api::*;
 use serde::{Deserialize, Serialize};
 
 // Models ---------------------
@@ -139,8 +140,9 @@ enum RVocab {
 
 impl<'a> FromRobj<'a> for RVocab {
     fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
-        if let Some(iter) = robj.as_named_list_iter() {
+        if let Some(iter) = robj.as_list() {
             let hash_map = iter
+                .iter()
                 .map(|(k, v)| (k.to_string(), v.as_integer().unwrap() as u32))
                 .collect::<HashMap<String, u32>>();
             std::result::Result::Ok(RVocab::Vocab(hash_map))
@@ -154,9 +156,10 @@ impl<'a> FromRobj<'a> for RVocab {
 
 impl<'a> FromRobj<'a> for RMerges {
     fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
-        if let Some(iter) = robj.as_list_iter() {
+        if let Some(iter) = robj.as_list() {
             let vector = iter
-                .map(|k| {
+                .iter()
+                .map(|(n, k)| {
                     let v = k.as_str_iter().unwrap().collect::<Vec<_>>();
                     (String::from(v[0]), String::from(v[1]))
                 })

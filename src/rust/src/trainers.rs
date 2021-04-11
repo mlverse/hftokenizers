@@ -1,4 +1,5 @@
 use extendr_api::*;
+use extendr_api::prelude::*;
 use crate::models::*;
 
 // Trainers -------------------
