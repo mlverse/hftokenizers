@@ -52,7 +52,9 @@ impl REncoding {
     let v_iter = v
       .iter()
       .map(|v| <Robj>::from([v.0 as i32, v.1 as i32]));
-    List((Options::None, v_iter)).into()
+
+
+    List::from_values(v_iter).into()
   }
 
   fn get_special_tokens_mask(&self) -> Vec<u32> {

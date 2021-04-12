@@ -159,7 +159,7 @@ impl<'a> FromRobj<'a> for RMerges {
         if let Some(iter) = robj.as_list() {
             let vector = iter
                 .iter()
-                .map(|(n, k)| {
+                .map(|(_n, k)| {
                     let v = k.as_str_iter().unwrap().collect::<Vec<_>>();
                     (String::from(v[0]), String::from(v[1]))
                 })

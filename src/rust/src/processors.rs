@@ -76,7 +76,7 @@ impl From<RSpecialToken> for tokenizers::processors::template::SpecialToken {
 impl<'a> FromRobj<'a> for RSpecialToken {
     fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
         if let Some(s) = robj.as_list() {            
-            let values : Vec<Robj> = s.iter().map(|(n, v)| v).collect();
+            let values : Vec<Robj> = s.iter().map(|(_n, v)| v).collect();
             Ok(Self(tokenizers::processors::template::SpecialToken::from(
                 (values[0].as_str().unwrap(),
                 values[1].as_integer().unwrap() as u32) 
