@@ -76,7 +76,7 @@ impl From<RSpecialToken> for tokenizers::processors::template::SpecialToken {
 impl<'a> FromRobj<'a> for RSpecialToken {
     fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
         if let Some(s) = robj.as_list() {            
-            let values : Vec<Robj> = s.iter().map(|(_n, v)| v).collect();
+            let values : Vec<Robj> = s.values().collect();
             Ok(Self(tokenizers::processors::template::SpecialToken::from(
                 (values[0].as_str().unwrap(),
                 values[1].as_integer().unwrap() as u32) 
@@ -95,10 +95,10 @@ impl VecRSpecialToken {}
 impl<'a> FromRobj<'a> for VecRSpecialToken {
     fn from_robj(robj: &'a Robj) -> std::result::Result<Self, &'static str> {
         if let Some(x) = robj.as_list() {
-            let mut output = Vec::<RSpecialToken>::new();
-            for v in x.iter() {
-                output.push(RSpecialToken::from_robj(&v.1).unwrap())
-            }
+            let output: Vec::<RSpecialToken> = x 
+                .values()
+                .map(|v| RSpecialToken::from_robj(&v).unwrap())
+                .collect();
             Ok(VecRSpecialToken(output))
         } else {
             Err("Expected a vector of special tokens.")
