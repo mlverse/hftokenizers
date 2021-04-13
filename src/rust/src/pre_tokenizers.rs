@@ -1,4 +1,5 @@
 use extendr_api::*;
+use extendr_api::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Deserialize, Serialize)]

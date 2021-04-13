@@ -1,4 +1,5 @@
 use extendr_api::*;
+use extendr_api::prelude::*;
 use crate::encoding::*;
 use tokenizers::PostProcessor;
 use std::convert::TryFrom;
@@ -74,8 +75,8 @@ impl From<RSpecialToken> for tokenizers::processors::template::SpecialToken {
 
 impl<'a> FromRobj<'a> for RSpecialToken {
     fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
-        if let Some(s) = robj.as_list_iter() {            
-            let values : Vec<Robj> = s.collect();
+        if let Some(s) = robj.as_list() {            
+            let values : Vec<Robj> = s.values().collect();
             Ok(Self(tokenizers::processors::template::SpecialToken::from(
                 (values[0].as_str().unwrap(),
                 values[1].as_integer().unwrap() as u32) 
@@ -93,11 +94,11 @@ impl VecRSpecialToken {}
 
 impl<'a> FromRobj<'a> for VecRSpecialToken {
     fn from_robj(robj: &'a Robj) -> std::result::Result<Self, &'static str> {
-        if let Some(x) = robj.as_list_iter() {
-            let mut output = Vec::<RSpecialToken>::new();
-            for v in x {
-                output.push(RSpecialToken::from_robj(&v).unwrap())
-            }
+        if let Some(x) = robj.as_list() {
+            let output: Vec::<RSpecialToken> = x 
+                .values()
+                .map(|v| RSpecialToken::from_robj(&v).unwrap())
+                .collect();
             Ok(VecRSpecialToken(output))
         } else {
             Err("Expected a vector of special tokens.")
