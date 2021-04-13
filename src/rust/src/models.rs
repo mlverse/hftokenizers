@@ -158,8 +158,8 @@ impl<'a> FromRobj<'a> for RMerges {
     fn from_robj (robj: &'a Robj) -> std::result::Result<Self, &'static str> {
         if let Some(iter) = robj.as_list() {
             let vector = iter
-                .iter()
-                .map(|(_n, k)| {
+                .values()
+                .map(|k| {
                     let v = k.as_str_iter().unwrap().collect::<Vec<_>>();
                     (String::from(v[0]), String::from(v[1]))
                 })

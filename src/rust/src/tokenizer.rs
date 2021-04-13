@@ -90,8 +90,8 @@ impl RTokenizer {
         if let Some(list) = inputs.as_list() {
 
             let mut inputs_str : Vec<Option<Vec<String>>> = list
-                .iter()
-                .map(|(_nm, val)| val.as_string_vector())
+                .values()
+                .map(|val| val.as_string_vector())
                 .collect();
 
             if inputs_str.len() == 1 {
