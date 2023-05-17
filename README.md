@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+> Note: This project is archived. Please refer to [tok](https://github.com/mlverse/tok) which is a reimplementation.
+
 # HuggingFace tokenizers from R
 
 [![R build
